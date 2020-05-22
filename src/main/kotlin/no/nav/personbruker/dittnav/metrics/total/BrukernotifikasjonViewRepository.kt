@@ -1,4 +1,4 @@
-package no.nav.personbruker.dittnav.total
+package no.nav.personbruker.dittnav.metrics.total
 
 import no.nav.personbruker.dittnav.metrics.database.Database
 import org.slf4j.Logger

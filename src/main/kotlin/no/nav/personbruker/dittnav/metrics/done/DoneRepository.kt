@@ -7,4 +7,10 @@ import org.slf4j.LoggerFactory.getLogger
 class DoneRepository(private val database: Database) {
 
     private val log: Logger = getLogger(DoneRepository::class.java)
+
+    suspend fun getNumberOfCachedDoneEvents(): Int {
+        return database.dbQuery {
+            countNumberOfCachedDoneEvents()
+        }
+    }
 }

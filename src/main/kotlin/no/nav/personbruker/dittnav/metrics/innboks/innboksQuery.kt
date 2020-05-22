@@ -4,16 +4,32 @@ import no.nav.personbruker.dittnav.metrics.database.entity.*
 import no.nav.personbruker.dittnav.metrics.database.query.*
 import java.sql.Connection
 
+fun Connection.measureInnboksEventsPerUser(): EventsPerUser =
+    prepareStatement(innboksEventsPerUserQueryString)
+        .use {
+            it.executeQuery().run {
+                toEventsPerUser()
+            }
+        }
+
+fun Connection.measureVisibleInnboksEventsPerUser(): VisibleEventsPerUser =
+    prepareStatement(visibleInnboksEventsPerUserQueryString)
+        .use {
+            it.executeQuery().run {
+                toVisibleEventsPerUser()
+            }
+        }
+
 fun Connection.measureActiveInnboksEventsPerUser(): ActiveEventsPerUser =
-    prepareStatement(innboksEventsActiveRateQueryString)
+    prepareStatement(innboksEventActiveRatePerUserQueryString)
         .use {
             it.executeQuery().run {
                 toActiveEventsPerUser()
             }
         }
 
-fun Connection.measureInnboksEventActiveRate(): EventActiveRate =
-    prepareStatement(innboksEventsActiveRateQueryString)
+fun Connection.measureInnboksEventActiveRate(): EventActiveRatePerUser =
+    prepareStatement(innboksEventActiveRatePerUserQueryString)
         .use {
             it.executeQuery().run {
                 toEventActiveRate()
@@ -21,18 +37,10 @@ fun Connection.measureInnboksEventActiveRate(): EventActiveRate =
         }
 
 fun Connection.measureInnboksEventsPerGroupId(): EventsPerGroupId =
-    prepareStatement(innboksEventsActiveRateQueryString)
+    prepareStatement(innboksEventActiveRatePerUserQueryString)
         .use {
             it.executeQuery().run {
                 toEventsPerGroupId()
-            }
-        }
-
-fun Connection.measureInnboksEventsPerUser(): EventsPerUser =
-    prepareStatement(innboksEventsPerUserQueryString)
-        .use {
-            it.executeQuery().run {
-                toEventsPerUser()
             }
         }
 
@@ -59,3 +67,20 @@ fun Connection.countNumberOfInnboksEvents(): Int =
                 toScalarInt()
             }
         }
+
+fun Connection.countNumberOfVisibleInnboksEvents(): Int =
+    prepareStatement(innboksEventsVisibleQueryString)
+        .use {
+            it.executeQuery().run {
+                toScalarInt()
+            }
+        }
+
+fun Connection.countNumberOfActiveInnboksEvents(): Int =
+    prepareStatement(innboksEventsActiveQueryString)
+        .use {
+            it.executeQuery().run {
+                toScalarInt()
+            }
+        }
+

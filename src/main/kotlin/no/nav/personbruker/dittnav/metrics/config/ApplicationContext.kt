@@ -6,7 +6,7 @@ import no.nav.personbruker.dittnav.metrics.database.PostgresDatabase
 import no.nav.personbruker.dittnav.metrics.done.DoneRepository
 import no.nav.personbruker.dittnav.metrics.innboks.InnboksRepository
 import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveRepository
-import no.nav.personbruker.dittnav.total.BrukernotifikasjonViewRepository
+import no.nav.personbruker.dittnav.metrics.total.BrukernotifikasjonViewRepository
 
 class ApplicationContext {
 
@@ -17,6 +17,7 @@ class ApplicationContext {
     val oppgaveRepository = OppgaveRepository(database)
     val innboksRepository = InnboksRepository(database)
     val doneRepository = DoneRepository(database)
-    val brukernotifikasjonViewRepository = BrukernotifikasjonViewRepository(database)
+    val brukernotifikasjonViewRepository =
+        BrukernotifikasjonViewRepository(database)
 
 }

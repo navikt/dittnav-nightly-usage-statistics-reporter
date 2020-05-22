@@ -11,4 +11,6 @@ data class DecimalMeasurement (
     val percentile99: Double
 )
 
-typealias EventActiveRate = DecimalMeasurement
+typealias EventActiveRatePerUser = DecimalMeasurement
+typealias EventExpiredRatePerUser = DecimalMeasurement
+typealias EventExpiredRateByInvisiblePerUser= DecimalMeasurement

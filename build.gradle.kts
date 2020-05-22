@@ -3,6 +3,7 @@ val flywayVersion = "5.2.4"
 val hikariCPVersion = "3.2.0"
 val postgresVersion = "42.2.5"
 val coroutinesVersion = "1.3.6"
+val influxdbVersion = "2.8"
 
 plugins {
     val kotlinVersion = "1.3.71"
@@ -28,6 +29,7 @@ dependencies {
     compile("com.zaxxer:HikariCP:$hikariCPVersion")
     compile("org.postgresql:postgresql:$postgresVersion")
     compile("org.flywaydb:flyway-core:$flywayVersion")
+    compile("org.influxdb:influxdb-java:$influxdbVersion")
 }
 
 tasks {

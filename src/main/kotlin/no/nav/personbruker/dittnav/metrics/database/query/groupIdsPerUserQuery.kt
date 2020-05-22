@@ -8,7 +8,7 @@ private fun singleTableQueryString(type: EventType) = """
     select
         min(aggregate.events) as minEvents,
         max(aggregate.events) as maxEvents,
-        avg(aggregate.events)::int as avgEvents,
+        avg(aggregate.events)::decimal as avgEvents,
         percentile_disc(0.25) within group ( order by aggregate.events ) as "25th_percentile",
         percentile_disc(0.50) within group ( order by aggregate.events ) as "50th_percentile",
         percentile_disc(0.75) within group ( order by aggregate.events ) as "75th_percentile",
@@ -25,7 +25,7 @@ val allGroupIdsPerUserQueryString = """
     select
         min(aggregate.events) as minEvents,
         max(aggregate.events) as maxEvents,
-        avg(aggregate.events)::int as avgEvents,
+        avg(aggregate.events)::decimal as avgEvents,
         percentile_disc(0.25) within group ( order by aggregate.events ) as "25th_percentile",
         percentile_disc(0.50) within group ( order by aggregate.events ) as "50th_percentile",
         percentile_disc(0.75) within group ( order by aggregate.events ) as "75th_percentile",
@@ -46,7 +46,7 @@ fun ResultSet.toGroupIdsPerUser(): GroupIdsPerUser {
     return GroupIdsPerUser(
         min = getInt("minEvents"),
         max = getInt("maxEvents"),
-        avg = getInt("avgEvents"),
+        avg = getDouble("avgEvents"),
         percentile25 = getInt("25th_percentile"),
         percentile50 = getInt("50th_percentile"),
         percentile75 = getInt("75th_percentile"),
