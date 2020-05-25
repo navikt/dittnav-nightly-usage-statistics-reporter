@@ -28,23 +28,6 @@ class InnboksRepository(private val database: Database) {
         }
     }
 
-    suspend fun getInnboksEventActiveRate(): EventActiveRatePerUser {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for INNBOKS")
-    }
-
-    suspend fun getExpiredInnboksEventsPerUser(): ExpiredEventsPerUser {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for INNBOKS")
-    }
-
-    suspend fun getInnboksEventExpiredRate(): EventExpiredRatePerUser  {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for INNBOKS")
-
-    }
-
-    suspend fun getExpiredInnboksEventPerUserByInvisible(): EventExpiredRateByInvisiblePerUser {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for INNBOKS")
-    }
-
     suspend fun getInnboksEventsPerGroupId(): EventsPerGroupId {
         return database.dbQuery {
             measureInnboksEventsPerGroupId()
@@ -79,9 +62,5 @@ class InnboksRepository(private val database: Database) {
         return database.dbQuery {
             countNumberOfActiveInnboksEvents()
         }
-    }
-
-    suspend fun getNumberOfExpiredInnboksEvents(): Int {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for INNBOKS")
     }
 }

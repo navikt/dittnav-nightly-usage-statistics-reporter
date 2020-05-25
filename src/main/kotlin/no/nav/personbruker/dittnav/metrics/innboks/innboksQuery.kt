@@ -21,7 +21,7 @@ fun Connection.measureVisibleInnboksEventsPerUser(): VisibleEventsPerUser =
         }
 
 fun Connection.measureActiveInnboksEventsPerUser(): ActiveEventsPerUser =
-    prepareStatement(innboksEventActiveRatePerUserQueryString)
+    prepareStatement(activeInnboksEventsPerUserQueryString)
         .use {
             it.executeQuery().run {
                 toActiveEventsPerUser()

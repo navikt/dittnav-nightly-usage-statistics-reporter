@@ -22,7 +22,7 @@ fun Connection.measureVisibleOppgaveEventsPerUser(): VisibleEventsPerUser =
         }
 
 fun Connection.measureActiveOppgaveEventsPerUser(): ActiveEventsPerUser =
-    prepareStatement(oppgaveEventActiveRatePerUserQueryString)
+    prepareStatement(activeOppgaveEventsPerUserQueryString)
         .use {
             it.executeQuery().run {
                 toActiveEventsPerUser()

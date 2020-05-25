@@ -12,7 +12,7 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
 
     private val REPORTING_ATTEMPTS = 3
 
-    suspend fun recordIntegerMeasurement(measurement: IntegerMeasurement, name: String, type: MeasurementEventType) {
+    suspend fun recordIntegerMeasurement(measurement: IntegerMeasurement, name: String, type: MeasurementEventType, processingTime: Long) {
         val fieldMap = listOf(
             "min" to measurement.min,
             "max" to measurement.max,
@@ -21,7 +21,8 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
             "50th_percentile" to measurement.percentile50,
             "75th_percentile" to measurement.percentile75,
             "90th_percentile" to measurement.percentile90,
-            "99th_percentile" to measurement.percentile99
+            "99th_percentile" to measurement.percentile99,
+            "processingTime" to processingTime
         ).toMap()
 
         val tagMap = listOf(
@@ -31,7 +32,7 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
         registerDataPoint(name, fieldMap, tagMap)
     }
 
-    suspend fun recordDecimalMeasurement(measurement: DecimalMeasurement, name: String, type: MeasurementEventType) {
+    suspend fun recordDecimalMeasurement(measurement: DecimalMeasurement, name: String, type: MeasurementEventType, processingTime: Long) {
         val fieldMap = listOf(
             "min" to measurement.min,
             "max" to measurement.max,
@@ -40,7 +41,8 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
             "50th_percentile" to measurement.percentile50,
             "75th_percentile" to measurement.percentile75,
             "90th_percentile" to measurement.percentile90,
-            "99th_percentile" to measurement.percentile99
+            "99th_percentile" to measurement.percentile99,
+            "processingTime" to processingTime
         ).toMap()
 
         val tagMap = listOf(
@@ -50,9 +52,10 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
         registerDataPoint(name, fieldMap, tagMap)
     }
 
-    suspend fun recordScalarIntMeasurement(measurement: Int, name: String, type: MeasurementEventType) {
+    suspend fun recordScalarIntMeasurement(measurement: Int, name: String, type: MeasurementEventType, processingTime: Long) {
         val fieldMap = listOf(
-            "counter" to measurement
+            "counter" to measurement,
+            "processingTime" to processingTime
         ).toMap()
 
         val tagMap = listOf(

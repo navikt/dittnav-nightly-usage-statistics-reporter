@@ -1,4 +1,4 @@
-package no.nav.personbruker.dittnav.metrics.all
+package no.nav.personbruker.dittnav.metrics.total
 
 import no.nav.personbruker.dittnav.metrics.database.entity.*
 import no.nav.personbruker.dittnav.metrics.database.query.*
@@ -21,7 +21,7 @@ fun Connection.measureVisibleEventsPerUser(): VisibleEventsPerUser =
         }
 
 fun Connection.measureActiveEventsPerUser(): ActiveEventsPerUser =
-    prepareStatement(totalEventActiveRatePerUserQueryString)
+    prepareStatement(allActiveEventsPerUserQueryString)
         .use {
             it.executeQuery().run {
                 toActiveEventsPerUser()

@@ -21,7 +21,7 @@ fun Connection.measureVisibleBeskjedEventsPerUser(): VisibleEventsPerUser =
         }
 
 fun Connection.measureActiveBeskjedEventsPerUser(): ActiveEventsPerUser =
-    prepareStatement(beskjedEventActiveRatePerUserQueryString)
+    prepareStatement(activeBeskjedEventsPerUserQueryString)
         .use {
             it.executeQuery().run {
                 toActiveEventsPerUser()

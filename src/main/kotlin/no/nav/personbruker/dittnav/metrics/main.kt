@@ -1,5 +1,8 @@
 package no.nav.personbruker.dittnav.metrics
 
-fun main() {
-    print("Hello")
+import kotlinx.coroutines.runBlocking
+
+fun main() = runBlocking {
+    val application = Application()
+    application.runMetricsReporting()
 }

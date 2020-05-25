@@ -4,7 +4,7 @@ import no.nav.personbruker.dittnav.metrics.config.Environment
 import no.nav.personbruker.dittnav.metrics.reporting.influx.InfluxMetricsReporter
 import no.nav.personbruker.dittnav.metrics.reporting.influx.SensuClient
 
-private fun resolveMetricsReporter(environment: Environment): MetricsReporter {
+fun buildMetricsReporter(environment: Environment): MetricsReporter {
     return if (environment.sensuHost == "" || environment.sensuHost == "stub") {
         StubMetricsReporter()
     } else {
