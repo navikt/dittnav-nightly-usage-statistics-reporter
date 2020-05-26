@@ -1,8 +1,6 @@
 package no.nav.personbruker.dittnav.metrics.done
 
-import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementCollector
-import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType.DONE
 import no.nav.personbruker.dittnav.metrics.reporting.NUMBER_OF_CACHED_DONE_EVENTS
 import no.nav.personbruker.dittnav.metrics.reporting.tryFetch
