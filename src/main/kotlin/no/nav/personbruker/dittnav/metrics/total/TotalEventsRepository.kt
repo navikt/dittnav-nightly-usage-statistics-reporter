@@ -3,7 +3,7 @@ package no.nav.personbruker.dittnav.metrics.total
 import no.nav.personbruker.dittnav.metrics.database.Database
 import no.nav.personbruker.dittnav.metrics.database.entity.*
 
-class BrukernotifikasjonRepository(private val database: Database) {
+class TotalEventsRepository(private val database: Database) {
 
     suspend fun getEventsPerUser(): EventsPerUser {
         return database.dbQuery {
@@ -23,7 +23,7 @@ class BrukernotifikasjonRepository(private val database: Database) {
         }
     }
 
-    suspend fun getEventActiveRate(): EventActiveRatePerUser {
+    suspend fun getEventActiveRatePerUser(): EventActiveRatePerUser {
         return database.dbQuery {
             measureEventActiveRatePerUser()
         }
@@ -56,6 +56,12 @@ class BrukernotifikasjonRepository(private val database: Database) {
     suspend fun getGroupIdsPerUser(): GroupIdsPerUser {
         return database.dbQuery {
             measureGroupIdsPerUser()
+        }
+    }
+
+    suspend fun getEventTextLength(): EventTextLength {
+        return database.dbQuery {
+            measureEventTextLength()
         }
     }
 

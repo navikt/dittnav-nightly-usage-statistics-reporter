@@ -17,7 +17,7 @@ private fun singleTableQuery(type: EventType) = """
     from (
         select count(1) filter (where synligfremtil < now() and aktiv = true)::decimal 
             / count(1) filter (where synligfremtil < now() or aktiv = false)::decimal as rate 
-        from ${type.eventType} group by fodselsnummer) as aggregate
+        from ${type.eventType} group by fodselsnummer having count(1) filter (where synligfremtil < now() or aktiv = false) > 0) as aggregate
 """
 
 val beskjedEventExpiredRateByInvisiblePerUserQueryString = singleTableQuery(EventType.BESKJED)

@@ -24,7 +24,7 @@ val innboksEventsQueryString = eventsQueryString(EventType.INNBOKS)
 private fun eventsVisibleQueryString(type: EventType) = "select count(1) as scalar_value from ${type.eventType} where (synligfremtil > now() or synligfremtil is null) and aktiv"
 
 val totalEventsVisibleQueryString = """
-    select count(1) as events
+    select count(1) as scalar_value
     from (
              SELECT synligfremtil as sft, aktiv, fodselsnummer FROM BESKJED
              UNION ALL
@@ -42,7 +42,7 @@ val innboksEventsVisibleQueryString = eventsActiveQueryString(EventType.INNBOKS)
 
 private fun eventsActiveQueryString(type: EventType) = "select count(1) as scalar_value from ${type.eventType} where aktiv"
 
-val totalEventsActiveQueryString = "select count(1) from brukernotifikasjon_view where aktiv"
+val totalEventsActiveQueryString = "select count(1) as scalar_value from brukernotifikasjon_view where aktiv"
 val beskjedEventsActiveQueryString = eventsActiveQueryString(EventType.BESKJED)
 val oppgaveEventsActiveQueryString = eventsActiveQueryString(EventType.OPPGAVE)
 val innboksEventsActiveQueryString = eventsActiveQueryString(EventType.INNBOKS)

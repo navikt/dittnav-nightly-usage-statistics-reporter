@@ -59,6 +59,12 @@ class BeskjedRepository(private val database: Database) {
         }
     }
 
+    suspend fun getBeskjedEventTextLength(): EventTextLength {
+        return database.dbQuery {
+            measureBeskjedEventTextLength()
+        }
+    }
+
     suspend fun getNumberOfUsersWithBeskjedEvents(): Int {
         return database.dbQuery {
             countUsersWithBeskjedEvents()

@@ -39,6 +39,16 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
         }
     }
 
+    suspend fun getAndReportOppgaveEventActiveRatePerUser() {
+        tryFetch {
+            oppgaveRepository.getOppgaveEventActiveRate()
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordDecimalMeasurement(measurement, ACTIVE_EVENTS_PER_USER, OPPGAVE, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for andel aktive oppgave-eventer per bruker. Tid brukt: ${processingTime}ms.")
+        }
+    }
+
     suspend fun getAndReportOppgaveEventsPerGroupId() {
         tryFetch {
             oppgaveRepository.getOppgaveEventsPerGroupId()
@@ -56,6 +66,16 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
             measurementCollector.recordIntegerMeasurement(measurement, GROUP_IDS_PER_USER, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall grupperingsid-er med minst ett oppgave-event per bruker. Tid brukt: ${processingTime}ms.")
+        }
+    }
+
+    suspend fun getAndReportOppgaveEventTextLength() {
+        tryFetch {
+            oppgaveRepository.getOppgaveEventTextLength()
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordIntegerMeasurement(measurement, EVENT_TEXT_LENGTH, OPPGAVE, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for tekstlengde for oppgave-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
 

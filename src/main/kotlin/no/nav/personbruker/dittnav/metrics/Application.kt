@@ -10,11 +10,11 @@ class Application (val applicationContext: ApplicationContext = ApplicationConte
     suspend fun runMetricsReporting() {
         log.info("Initiating collection and reporting of dittnav cache metrics.")
         test()
-//        runBeskjedMetricsReporting()
-//        runOppgaveMetricsReporting()
-//        runInnboksMetricsReporting()
-//        runTotalEventsMetricsReporting()
-//        runDoneEventsMetricsReporting()
+        runBeskjedMetricsReporting()
+        runOppgaveMetricsReporting()
+        runInnboksMetricsReporting()
+        runTotalEventsMetricsReporting()
+        runDoneEventsMetricsReporting()
     }
     
     private suspend fun runBeskjedMetricsReporting() {
@@ -28,7 +28,8 @@ class Application (val applicationContext: ApplicationContext = ApplicationConte
             getAndReportExpiredBeskjedEventPerUserByInvisible()
             getAndReportBeskjedEventsPerGroupId()
             getAndReportBeskjedGroupIdsPerUser()
-            
+            getAndReportBeskjedEventTextLength()
+
             getAndReportNumberOfUsersWithBeskjedEvents()
             getAndReportNumberOfBeskjedEvents()
             getAndReportNumberOfVisibleBeskjedEvents()
@@ -42,8 +43,10 @@ class Application (val applicationContext: ApplicationContext = ApplicationConte
             getAndReportOppgaveEventsPerUser()
             getAndReportVisibleOppgaveEventsPerUser()
             getAndReportActiveOppgaveEventsPerUser()
+            getAndReportOppgaveEventActiveRatePerUser()
             getAndReportOppgaveEventsPerGroupId()
             getAndReportOppgaveGroupIdsPerUser()
+            getAndReportOppgaveEventTextLength()
             
             getAndReportNumberOfUsersWithOppgaveEvents()
             getAndReportNumberOfOppgaveEvents()
@@ -57,8 +60,10 @@ class Application (val applicationContext: ApplicationContext = ApplicationConte
             getAndReportInnboksEventsPerUser()
             getAndReportVisibleInnboksEventsPerUser()
             getAndReportActiveInnboksEventsPerUser()
+            getAndReportInnboksEventActiveRatePerUser()
             getAndReportInnboksEventsPerGroupId()
             getAndReportInnboksGroupIdsPerUser()
+            getAndReportInnboksEventTextLength()
 
             getAndReportNumberOfUsersWithInnboksEvents()
             getAndReportNumberOfInnboksEvents()
@@ -72,12 +77,13 @@ class Application (val applicationContext: ApplicationContext = ApplicationConte
             getAndReportEventsPerUser()
             getAndReportVisibleEventsPerUser()
             getAndReportActiveEventsPerUser()
-            getAndReportEventActiveRate()
+            getAndReportEventActiveRatePerUser()
             getAndReportExpiredEventsPerUser()
             getAndReportEventExpiredRate()
             getAndReportExpiredEventPerUserByInvisible()
             getAndReportEventsPerGroupId()
             getAndReportGroupIdsPerUser()
+            getAndReportEventTextLength()
 
             getAndReportNumberOfUsersWithEvents()
             getAndReportNumberOfEvents()

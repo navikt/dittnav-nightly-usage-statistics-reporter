@@ -19,7 +19,7 @@ private fun singleTableQuery(type: EventType) = """
 
 val beskjedEventExpiredRatePerUserQueryString = singleTableQuery(EventType.BESKJED)
 
-val allEventExpiredRatePerUserQueryString = """
+val totalEventExpiredRatePerUserQueryString = """
     select
         min(aggregate.rate) as minRate, 
         max(aggregate.rate) as maxRate, 

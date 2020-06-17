@@ -28,6 +28,12 @@ class InnboksRepository(private val database: Database) {
         }
     }
 
+    suspend fun getInnboksEventActiveRate(): EventActiveRatePerUser {
+        return database.dbQuery {
+            measureInnboksEventActiveRatePerUser()
+        }
+    }
+
     suspend fun getInnboksEventsPerGroupId(): EventsPerGroupId {
         return database.dbQuery {
             measureInnboksEventsPerGroupId()
@@ -37,6 +43,12 @@ class InnboksRepository(private val database: Database) {
     suspend fun getInnboksGroupIdsPerUser(): GroupIdsPerUser {
         return database.dbQuery {
             measureInnboksGroupIdsPerUser()
+        }
+    }
+
+    suspend fun getInnboksEventTextLength(): EventTextLength {
+        return database.dbQuery {
+            measureInnboksEventTextLength()
         }
     }
 

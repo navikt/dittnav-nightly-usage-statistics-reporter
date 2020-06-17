@@ -21,7 +21,7 @@ val beskjedEventsPerUserQueryString = singleTableQueryString(EventType.BESKJED)
 val oppgaveEventsPerUserQueryString = singleTableQueryString(EventType.OPPGAVE)
 val innboksEventsPerUserQueryString = singleTableQueryString(EventType.INNBOKS)
 
-val allEventsPerUserQueryString = """
+val totalEventsPerUserQueryString = """
     select
         min(aggregate.events) as minEvents,
         max(aggregate.events) as maxEvents,

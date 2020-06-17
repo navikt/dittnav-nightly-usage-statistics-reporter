@@ -38,6 +38,16 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
             log.warn("Klarte ikke hente inn data for antall aktive innboks-eventer per bruker. Tid brukt: ${processingTime}ms.")
         }
     }
+    
+    suspend fun getAndReportInnboksEventActiveRatePerUser() {
+        tryFetch {
+            innboksRepository.getInnboksEventActiveRate()
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordDecimalMeasurement(measurement, ACTIVE_EVENTS_PER_USER, INNBOKS, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for andel aktive innboks-eventer per bruker. Tid brukt: ${processingTime}ms.")
+        }
+    }
 
     suspend fun getAndReportInnboksEventsPerGroupId() {
         tryFetch {
@@ -56,6 +66,16 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
             measurementCollector.recordIntegerMeasurement(measurement, GROUP_IDS_PER_USER, INNBOKS, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall grupperingsid-er med minst ett innboks-event per bruker. Tid brukt: ${processingTime}ms.")
+        }
+    }
+
+    suspend fun getAndReportInnboksEventTextLength() {
+        tryFetch {
+            innboksRepository.getInnboksEventTextLength()
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordIntegerMeasurement(measurement, EVENT_TEXT_LENGTH, INNBOKS, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for tekstlengde for innboks-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
 

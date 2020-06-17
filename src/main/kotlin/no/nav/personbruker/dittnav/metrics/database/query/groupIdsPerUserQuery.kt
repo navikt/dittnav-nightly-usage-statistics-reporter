@@ -14,14 +14,14 @@ private fun singleTableQueryString(type: EventType) = """
         percentile_disc(0.75) within group ( order by aggregate.events ) as "75th_percentile",
         percentile_disc(0.90) within group ( order by aggregate.events ) as "90th_percentile",
         percentile_disc(0.99) within group ( order by aggregate.events ) as "99th_percentile"
-    from (select count(distinct grupperingsid) as events from ${type.eventType} group by produsent, fodselsnummer) as aggregate
+    from (select count(distinct grupperingsid) as events from ${type.eventType} group by systembruker, fodselsnummer) as aggregate
 """
 
 val beskjedGroupIdsPerUserQueryString = singleTableQueryString(EventType.BESKJED)
 val oppgaveGroupIdsPerUserQueryString = singleTableQueryString(EventType.OPPGAVE)
 val innboksGroupIdsPerUserQueryString = singleTableQueryString(EventType.INNBOKS)
 
-val allGroupIdsPerUserQueryString = """
+val totalGroupIdsPerUserQueryString = """
     select
         min(aggregate.events) as minEvents,
         max(aggregate.events) as maxEvents,
@@ -33,12 +33,12 @@ val allGroupIdsPerUserQueryString = """
 percentile_disc(0.99) within group ( order by aggregate.events ) as "99th_percentile"
     from (
          select count(distinct grupperingsid) as events from (
-                SELECT produsent, fodselsnummer, grupperingsid FROM BESKJED
+                SELECT systembruker, fodselsnummer, grupperingsid FROM BESKJED
                 UNION ALL
-                SELECT produsent, fodselsnummer, grupperingsid FROM OPPGAVE
+                SELECT systembruker, fodselsnummer, grupperingsid FROM OPPGAVE
                 UNION ALL
-                SELECT produsent, fodselsnummer, grupperingsid FROM INNBOKS
-            ) as inner_view group by produsent, fodselsnummer
+                SELECT systembruker, fodselsnummer, grupperingsid FROM INNBOKS
+            ) as inner_view group by systembruker, fodselsnummer
          ) as aggregate
 """
 

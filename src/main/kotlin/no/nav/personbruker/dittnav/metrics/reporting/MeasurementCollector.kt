@@ -22,7 +22,7 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
             "75th_percentile" to measurement.percentile75,
             "90th_percentile" to measurement.percentile90,
             "99th_percentile" to measurement.percentile99,
-            "processingTime" to processingTime
+            "processingTimeMs" to processingTime
         ).toMap()
 
         val tagMap = listOf(
@@ -42,7 +42,7 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
             "75th_percentile" to measurement.percentile75,
             "90th_percentile" to measurement.percentile90,
             "99th_percentile" to measurement.percentile99,
-            "processingTime" to processingTime
+            "processingTimeMs" to processingTime
         ).toMap()
 
         val tagMap = listOf(
@@ -55,7 +55,7 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
     suspend fun recordScalarIntMeasurement(measurement: Int, name: String, type: MeasurementEventType, processingTime: Long) {
         val fieldMap = listOf(
             "counter" to measurement,
-            "processingTime" to processingTime
+            "processingTimeMs" to processingTime
         ).toMap()
 
         val tagMap = listOf(

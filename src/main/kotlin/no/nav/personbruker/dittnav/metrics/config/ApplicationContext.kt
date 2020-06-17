@@ -12,7 +12,7 @@ import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveMetricsCollector
 import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveRepository
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementCollector
 import no.nav.personbruker.dittnav.metrics.reporting.buildMetricsReporter
-import no.nav.personbruker.dittnav.metrics.total.BrukernotifikasjonRepository
+import no.nav.personbruker.dittnav.metrics.total.TotalEventsRepository
 import no.nav.personbruker.dittnav.metrics.total.TotalEventsMetricsCollector
 
 class ApplicationContext {
@@ -32,7 +32,7 @@ class ApplicationContext {
     private val innboksRepository = InnboksRepository(database)
     val innboksMetricsCollector = InnboksMetricsCollector(innboksRepository, measurementCollector)
 
-    private val brukernotifikasjonRepository = BrukernotifikasjonRepository(database)
+    private val brukernotifikasjonRepository = TotalEventsRepository(database)
     val totalEventsMetricsCollector = TotalEventsMetricsCollector(brukernotifikasjonRepository, measurementCollector)
 
     private val doneRepository = DoneRepository(database)

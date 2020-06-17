@@ -29,20 +29,9 @@ class OppgaveRepository(private val database: Database) {
     }
 
     suspend fun getOppgaveEventActiveRate(): EventActiveRatePerUser {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for OPPGAVE")
-    }
-
-    suspend fun getExpiredOppgaveEventsPerUser(): ExpiredEventsPerUser {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for OPPGAVE")
-    }
-
-    suspend fun measureOppgaveEventExpiredRate(): EventExpiredRatePerUser  {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for OPPGAVE")
-
-    }
-
-    suspend fun getExpiredOppgaveEventPerUserByInvisible(): EventExpiredRateByInvisiblePerUser {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for OPPGAVE")
+        return database.dbQuery {
+            measureOppgaveEventActiveRate()
+        }
     }
 
     suspend fun getOppgaveEventsPerGroupId(): EventsPerGroupId {
@@ -54,6 +43,12 @@ class OppgaveRepository(private val database: Database) {
     suspend fun getOppgaveGroupIdsPerUser(): GroupIdsPerUser {
         return database.dbQuery {
             measureOppgaveGroupIdsPerUser()
+        }
+    }
+
+    suspend fun getOppgaveEventTextLength(): EventTextLength {
+        return database.dbQuery {
+            measureOppgaveEventTextLength()
         }
     }
 
@@ -79,9 +74,5 @@ class OppgaveRepository(private val database: Database) {
         return database.dbQuery {
             countNumberOfActiveOppgaveEvents()
         }
-    }
-
-    suspend fun getNumberOfExpiredOppgaveEvents(): Int {
-        throw NotYetImplementedException("Not implemented as field 'synligFremTil' does not exist for OPPGAVE")
     }
 }

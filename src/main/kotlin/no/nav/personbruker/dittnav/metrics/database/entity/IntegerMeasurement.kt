@@ -17,3 +17,4 @@ typealias EventsPerGroupId = IntegerMeasurement
 typealias GroupIdsPerUser = IntegerMeasurement
 typealias ExpiredEventsPerUser = IntegerMeasurement
 typealias VisibleEventsPerUser = IntegerMeasurement
+typealias EventTextLength = IntegerMeasurement

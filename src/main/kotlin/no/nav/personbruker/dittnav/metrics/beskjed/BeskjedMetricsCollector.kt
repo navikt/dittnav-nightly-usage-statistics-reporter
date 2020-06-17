@@ -99,6 +99,16 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedRepository,
         }
     }
 
+    suspend fun getAndReportBeskjedEventTextLength() {
+        tryFetch {
+            beskjedRepository.getBeskjedEventTextLength()
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordIntegerMeasurement(measurement, EVENT_TEXT_LENGTH, BESKJED, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for tekstlengde for beskjed-eventer. Tid brukt: ${processingTime}ms.")
+        }
+    }
+
     suspend fun getAndReportNumberOfUsersWithBeskjedEvents() {
         tryFetch {
             beskjedRepository.getNumberOfUsersWithBeskjedEvents()
