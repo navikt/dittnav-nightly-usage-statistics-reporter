@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: dittnav-event-cache-metrics-reporter
-  namespace: {{namespace}}
+  namespace: personbruker
   labels:
     team: personbruker
 spec:
