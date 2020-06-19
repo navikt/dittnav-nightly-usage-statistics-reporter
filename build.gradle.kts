@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val vaultJdbcVersion = "1.3.1"
 val flywayVersion = "5.2.4"
 val hikariCPVersion = "3.2.0"
@@ -62,13 +64,6 @@ dependencies {
 }
 
 tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-
     withType<Jar> {
         manifest {
             attributes["Main-Class"] = application.mainClassName
