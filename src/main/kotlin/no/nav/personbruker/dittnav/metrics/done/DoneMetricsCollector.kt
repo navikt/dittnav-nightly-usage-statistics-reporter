@@ -17,7 +17,7 @@ class DoneMetricsCollector(private val doneRepository: DoneRepository,
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_CACHED_DONE_EVENTS, DONE, processingTime)
         }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall innboks-eventer per bruker. Tid brukt: ${processingTime}ms.")
+            log.warn("Klarte ikke hente inn data for antall done-eventer per bruker. Tid brukt: ${processingTime}ms.")
         }
     }
 }

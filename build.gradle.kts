@@ -76,6 +76,14 @@ tasks {
         from(configurations.runtime.get().map { if (it.isDirectory) it else zipTree(it) })
     }
 
+    withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+            events("passed", "skipped", "failed")
+        }
+    }
+
     "run" (JavaExec::class) {
         environment("SERVICEUSER_USERNAME", "username")
         environment("SERVICEUSER_PASSWORD", "password")
@@ -88,7 +96,15 @@ tasks {
         environment("SENSU_HOST", "stub")
         environment("SENSU_PORT", "")
     }
-
-
-
 }
+
+val integrationTest = task<Test>("integrationTest") {
+    description = "Runs integration tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["intTest"].output.classesDirs
+    classpath = sourceSets["intTest"].runtimeClasspath
+    shouldRunAfter("test")
+}
+
+tasks.check { dependsOn(integrationTest) }

@@ -2,13 +2,8 @@ package no.nav.personbruker.dittnav.metrics.oppgave
 
 import no.nav.personbruker.dittnav.metrics.database.Database
 import no.nav.personbruker.dittnav.metrics.database.entity.*
-import no.nav.personbruker.dittnav.metrics.database.exception.NotYetImplementedException
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory.getLogger
 
 class OppgaveRepository(private val database: Database) {
-
-    private val log: Logger = getLogger(OppgaveRepository::class.java)
 
     suspend fun getOppgaveEventsPerUser(): EventsPerUser {
         return database.dbQuery {

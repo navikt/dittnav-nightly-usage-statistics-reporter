@@ -1,15 +1,15 @@
 package no.nav.personbruker.dittnav.metrics
 
 import no.nav.personbruker.dittnav.metrics.config.ApplicationContext
+import no.nav.personbruker.dittnav.metrics.config.DefaultApplicationContext
 import org.slf4j.LoggerFactory
 
-class Application (val applicationContext: ApplicationContext = ApplicationContext()) {
+class Application (val applicationContext: ApplicationContext = DefaultApplicationContext()) {
 
     val log = LoggerFactory.getLogger(Application::class.java)
 
     suspend fun runMetricsReporting() {
         log.info("Initiating collection and reporting of dittnav cache metrics.")
-        test()
         runBeskjedMetricsReporting()
         runOppgaveMetricsReporting()
         runInnboksMetricsReporting()
@@ -96,12 +96,6 @@ class Application (val applicationContext: ApplicationContext = ApplicationConte
     private suspend fun runDoneEventsMetricsReporting() {
         applicationContext.doneMetricsCollector.run {
             getAndReportNumberOfCachedDoneEvents()
-        }
-    }
-
-    private suspend fun test() {
-        applicationContext.beskjedMetricsCollector.run {
-            getAndReportNumberOfBeskjedEvents()
         }
     }
 }
