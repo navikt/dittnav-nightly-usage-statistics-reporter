@@ -1,0 +1,5 @@
+{
+  "namespace": "q1",
+  "cluster": "preprod",
+  "environment": "dev"
+}
