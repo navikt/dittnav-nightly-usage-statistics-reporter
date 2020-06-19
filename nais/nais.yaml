@@ -49,7 +49,7 @@ spec:
             - -vault=https://vault.adeo.no
             - -one-shot
             - -save-token=/var/run/secrets/nais.io/vault/vault_token
-            - -cn=secret:kv/{{cluster}}/sbs/dittnav-event-cache-metrics-reporter/{{namespace}}:dir=/var/run/secrets/nais.io/vault,fmt=flatten
+            - -cn=secret:kv/{{cluster}}/sbs/dittnav-event-cache-metrics-reporter/personbruker:dir=/var/run/secrets/nais.io/vault,fmt=flatten
             - -cn=secret:serviceuser/data/{{environment}}/srvdn-cache-metrics:dir=/secret/serviceuser,fmt=flatten
           env:
             - name: VAULT_AUTH_METHOD
