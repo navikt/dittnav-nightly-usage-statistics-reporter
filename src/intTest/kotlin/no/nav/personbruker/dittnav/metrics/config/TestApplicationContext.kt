@@ -47,7 +47,6 @@ private fun testEnvironment() = Environment(
         dbUrl = "N/A",
         dbUser = "N/A",
         clusterName = "N/A",
-        namespace = "N/A",
         sensuHost = "stub",
         sensuPort = "N/A"
     )

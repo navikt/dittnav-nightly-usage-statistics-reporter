@@ -90,8 +90,7 @@ tasks {
         environment("DB_NAME", "dittnav-event-cache-preprod")
         environment("DB_PASSWORD", "testpassword")
         environment("DB_MOUNT_PATH", "notUsedOnLocalhost")
-        environment("NAIS_CLUSTER_NAME", "dev-sbs")
-        environment("NAIS_NAMESPACE", "q1")
+        environment("CLUSTER_NAME", "dev-sbs")
         environment("SENSU_HOST", "stub")
         environment("SENSU_PORT", "")
     }
