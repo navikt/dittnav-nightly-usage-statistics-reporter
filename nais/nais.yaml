@@ -65,11 +65,9 @@ spec:
             - mountPath: /var/run/secrets/nais.io/vault
               name: vault-secrets
               subPath: subpath/var/run/secrets/nais.io/vault
-              readOnly: true
             - mountPath: /secret/serviceuser
               name: vault-secrets
               subPath: subpath/secret/serviceuser
-              readOnly: true
           args:
             - -v=10
             - -logtostderr
