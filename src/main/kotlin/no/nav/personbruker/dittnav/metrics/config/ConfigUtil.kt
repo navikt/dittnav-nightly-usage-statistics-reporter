@@ -2,8 +2,8 @@ package no.nav.personbruker.dittnav.metrics.config
 
 object ConfigUtil {
 
-    fun isCurrentlyRunningOnNais(): Boolean {
-        return System.getenv("NAIS_APP_NAME") != null
+    fun isCurrentlyRunningInCluster(): Boolean {
+        return System.getenv("PUBLIC_APP_NAME") != null
     }
 
 }

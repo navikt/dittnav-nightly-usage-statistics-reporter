@@ -20,7 +20,7 @@ class PostgresDatabase(env: Environment) : Database {
 
 
     private fun createCorrectConnectionForEnvironment(env: Environment): HikariDataSource {
-        return when (ConfigUtil.isCurrentlyRunningOnNais()) {
+        return when (ConfigUtil.isCurrentlyRunningInCluster()) {
             true -> createConnectionViaVaultWithDbUser(env)
             false -> createConnectionForLocalDbWithDbUser(env)
         }
