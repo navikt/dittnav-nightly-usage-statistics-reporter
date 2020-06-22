@@ -64,5 +64,13 @@ spec:
         - name: vault-secrets
           emptyDir:
             medium: Memory
+        - configMap:
+            defaultMode: 420
+            name: ca-bundle-jks
+          name: ca-bundle-jks
+        - configMap:
+            defaultMode: 420
+            name: ca-bundle-pem
+          name: ca-bundle-pem
       restartPolicy: Never
   backoffLimit: 2
