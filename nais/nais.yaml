@@ -9,6 +9,8 @@ spec:
   ttlSecondsAfterFinished: 300
   template:
     spec:
+      imagePullSecrets:
+        - name: gpr-credentials
       containers:
         - name: dittnav-event-cache-metrics-reporter
           image: {{version}}
@@ -26,6 +28,29 @@ spec:
             - mountPath: /secret/serviceuser
               name: vault-secrets
               subPath: subpath/secret/serviceuser
+            - mountPath: /etc/ssl/certs/ca-certificates.crt
+              name: ca-bundle-pem
+              readOnly: true
+              subPath: ca-bundle.pem
+            - mountPath: /etc/pki/tls/certs/ca-bundle.crt
+              name: ca-bundle-pem
+              readOnly: true
+              subPath: ca-bundle.pem
+            - mountPath: /etc/ssl/ca-bundle.pem
+              name: ca-bundle-pem
+              readOnly: true
+              subPath: ca-bundle.pem
+            - mountPath: /etc/pki/tls/cacert.pem
+              name: ca-bundle-pem
+              readOnly: true
+              subPath: ca-bundle.pem
+            - mountPath: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+              name: ca-bundle-pem
+              readOnly: true
+              subPath: ca-bundle.pem
+            - mountPath: /etc/ssl/certs/java/cacerts
+              name: ca-bundle-jks
+              readOnly: true
       initContainers:
         - name: vks-init
           image: navikt/vault-sidekick:v0.3.10-d122b16
@@ -40,9 +65,11 @@ spec:
             - mountPath: /var/run/secrets/nais.io/vault
               name: vault-secrets
               subPath: subpath/var/run/secrets/nais.io/vault
+              readOnly: true
             - mountPath: /secret/serviceuser
               name: vault-secrets
               subPath: subpath/secret/serviceuser
+              readOnly: true
           args:
             - -v=10
             - -logtostderr
@@ -50,6 +77,7 @@ spec:
             - -one-shot
             - -save-token=/var/run/secrets/nais.io/vault/vault_token
             - -cn=secret:serviceuser/data/{{environment}}/srvdn-cache-metrics:dir=/secret/serviceuser,fmt=flatten
+            - -cn=secret:kv/{{cluster}}/sbs/dittnav-event-cache-metrics-reporter/personbruker:dir=/var/run/secrets/nais.io/vault,fmt=flatten
           env:
             - name: VAULT_AUTH_METHOD
               value: kubernetes
