@@ -23,6 +23,10 @@ plugins {
     application
 }
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 application {
     mainClassName = "no.nav.personbruker.dittnav.metrics.MainKt"
 }
@@ -45,8 +49,8 @@ val intTestImplementation by configurations.getting {
 configurations["intTestRuntimeOnly"].extendsFrom(configurations.testRuntimeOnly.get())
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    compile(kotlin("stdlib-jdk8"))
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     compile("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
     compile("no.nav:vault-jdbc:$vaultJdbcVersion")
