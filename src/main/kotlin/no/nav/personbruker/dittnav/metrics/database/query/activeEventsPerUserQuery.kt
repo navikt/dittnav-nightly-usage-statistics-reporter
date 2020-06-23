@@ -14,7 +14,7 @@ private fun singleTableQueryString(type: EventType) = """
         percentile_disc(0.75) within group ( order by aggregate.events ) as "75th_percentile",
         percentile_disc(0.90) within group ( order by aggregate.events ) as "90th_percentile",
         percentile_disc(0.99) within group ( order by aggregate.events ) as "99th_percentile"
-    from (select count(aktiv) as events from ${type.eventType} group by fodselsnummer) as aggregate
+    from (select count(1) filter (where aktiv = true) as events from ${type.eventType} group by fodselsnummer) as aggregate
 """
 
 val activeBeskjedEventsPerUserQueryString = singleTableQueryString(EventType.BESKJED)
@@ -31,7 +31,15 @@ val totalActiveEventsPerUserQueryString = """
         percentile_disc(0.75) within group ( order by aggregate.events ) as "75th_percentile",
         percentile_disc(0.90) within group ( order by aggregate.events ) as "90th_percentile",
         percentile_disc(0.99) within group ( order by aggregate.events ) as "99th_percentile"
-    from (select count(aktiv) as events from brukernotifikasjon_view group by fodselsnummer) as aggregate
+from (
+    select count(1) filter (where aktiv = true) as events from (
+            SELECT aktiv, fodselsnummer FROM BESKJED
+            UNION ALL
+            SELECT aktiv, fodselsnummer FROM OPPGAVE
+            UNION ALL
+            SELECT aktiv, fodselsnummer FROM INNBOKS
+        ) as inner_view group by fodselsnummer
+    ) as aggregate; 
 """
 
 fun ResultSet.toActiveEventsPerUser(): ActiveEventsPerUser {

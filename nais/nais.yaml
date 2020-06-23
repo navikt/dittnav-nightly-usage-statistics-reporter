@@ -6,7 +6,7 @@ metadata:
   labels:
     team: personbruker
 spec:
-  schedule: 0 3 * * *
+  schedule: 0 1 * * *
   jobTemplate:
     spec:
       template:
