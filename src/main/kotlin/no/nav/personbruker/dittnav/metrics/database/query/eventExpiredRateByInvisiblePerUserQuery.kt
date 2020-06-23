@@ -34,14 +34,14 @@ val totalEventExpiredRateByInvisiblePerUserQueryString = """
         percentile_disc(0.99) within group ( order by aggregate.rate ) as "99th_percentile"
     from (
         select count(1) filter (where sft < now() and aktiv = true)::decimal 
-            / count(1) filter (where sft < now() or aktiv = false)::decimal as rate 
+            / count(1) filter (where (sft < now() or sft is null) or aktiv = false)::decimal as rate 
             from (
                SELECT synligfremtil as sft, aktiv, fodselsnummer FROM BESKJED
                UNION ALL
                SELECT null as sft, aktiv, fodselsnummer FROM OPPGAVE
                UNION ALL
                SELECT null as sft, aktiv, fodselsnummer FROM INNBOKS
-           ) as inner_view group by fodselsnummer having count (1) filter (where sft < now() or aktiv = false)::decimal > 0
+           ) as inner_view group by fodselsnummer having count (1) filter (where (sft < now() or sft is null) or aktiv = false)::decimal > 0
         ) as aggregate 
 """
 
