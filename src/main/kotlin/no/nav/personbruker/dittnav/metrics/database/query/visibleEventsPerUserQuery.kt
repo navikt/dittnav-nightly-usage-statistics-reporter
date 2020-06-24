@@ -1,10 +1,9 @@
 package no.nav.personbruker.dittnav.metrics.database.query
 
-import no.nav.personbruker.dittnav.metrics.config.EventType
 import no.nav.personbruker.dittnav.metrics.database.entity.VisibleEventsPerUser
 import java.sql.ResultSet
 
-private fun singleTableQueryString(type: EventType) = """
+val visibleBeskjedEventsPerUserQueryString = """
     select
         min(aggregate.events) as minEvents,
         max(aggregate.events) as maxEvents,
@@ -14,12 +13,11 @@ private fun singleTableQueryString(type: EventType) = """
         percentile_disc(0.75) within group ( order by aggregate.events ) as "75th_percentile",
         percentile_disc(0.90) within group ( order by aggregate.events ) as "90th_percentile",
         percentile_disc(0.99) within group ( order by aggregate.events ) as "99th_percentile"
-    from (select count(1) filter (where (synligfremtil > now() or synligfremtil is null) and aktiv = true) as events from ${type.eventType} group by fodselsnummer) as aggregate
+    from (select count(1) filter (where (synligfremtil > now() or synligfremtil is null) and aktiv = true) as events from BESKJED group by fodselsnummer) as aggregate
 """
 
-val visibleBeskjedEventsPerUserQueryString = singleTableQueryString(EventType.BESKJED)
-val visibleOppgaveEventsPerUserQueryString = singleTableQueryString(EventType.OPPGAVE)
-val visibleInnboksEventsPerUserQueryString = singleTableQueryString(EventType.INNBOKS)
+val visibleOppgaveEventsPerUserQueryString = activeOppgaveEventsPerUserQueryString // Innboks and oppgave does not currently have field 'synligFremTil'
+val visibleInnboksEventsPerUserQueryString = activeInnboksEventsPerUserQueryString
 
 val allVisibleEventsPerUserQueryString = """
     select

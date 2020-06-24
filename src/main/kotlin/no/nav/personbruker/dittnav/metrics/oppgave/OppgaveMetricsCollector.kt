@@ -43,7 +43,7 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
         tryFetch {
             oppgaveRepository.getOppgaveEventActiveRate()
         }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordDecimalMeasurement(measurement, ACTIVE_EVENTS_PER_USER, OPPGAVE, processingTime)
+            measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for andel aktive oppgave-eventer per bruker. Tid brukt: ${processingTime}ms.")
         }

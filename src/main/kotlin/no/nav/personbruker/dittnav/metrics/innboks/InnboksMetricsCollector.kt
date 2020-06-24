@@ -43,7 +43,7 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
         tryFetch {
             innboksRepository.getInnboksEventActiveRate()
         }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordDecimalMeasurement(measurement, ACTIVE_EVENTS_PER_USER, INNBOKS, processingTime)
+            measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, INNBOKS, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for andel aktive innboks-eventer per bruker. Tid brukt: ${processingTime}ms.")
         }
