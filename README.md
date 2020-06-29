@@ -5,7 +5,10 @@ Appen er ment å kjøres som et program som kjører til completion og så termin
 kl. 01:00 UTC.
 
 # Kom i gang
-1. Bygge dittnav-event-aggregator:
+Appen er avhengig av at tabellene for brukernotifikasjoner finnes i databasen. Disse tabellene eies og
+opprettes av dittnav-event-aggregator. Det er derfor nødvendig at aggregator har kjørt først minst én gang.
+
+1. Bygge dittnav-event-cache-metrics-reporter:
     * bygge og kjøre tester: `gradle clean build`
 2. Kjør henting av statistikk mot lokal database `gradle run`
 
