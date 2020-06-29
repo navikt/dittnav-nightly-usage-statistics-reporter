@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: dittnav-event-cache-metrics-reporter
+  name: dittnav-nightly-usage-statistics-reporter
   namespace: personbruker
   labels:
     team: personbruker
@@ -14,7 +14,7 @@ spec:
           imagePullSecrets:
             - name: gpr-credentials
           containers:
-            - name: dittnav-event-cache-metrics-reporter
+            - name: dittnav-nightly-usage-statistics-reporter
               image: {{version}}
               resources:
                 requests:
@@ -77,12 +77,12 @@ spec:
                 - -one-shot
                 - -save-token=/var/run/secrets/nais.io/vault/vault_token
                 - -cn=secret:serviceuser/data/{{environment}}/srvdn-cache-metrics:dir=/secret/serviceuser,fmt=flatten
-                - -cn=secret:kv/{{cluster}}/sbs/dittnav-event-cache-metrics-reporter/personbruker:dir=/var/run/secrets/nais.io/vault,fmt=flatten
+                - -cn=secret:kv/{{cluster}}/sbs/dittnav-nightly-usage-statistics-reporter/personbruker:dir=/var/run/secrets/nais.io/vault,fmt=flatten
               env:
                 - name: VAULT_AUTH_METHOD
                   value: kubernetes
                 - name: VAULT_SIDEKICK_ROLE
-                  value: dittnav-event-cache-metrics-reporter
+                  value: dittnav-nightly-usage-statistics-reporter
                 - name: VAULT_K8S_LOGIN_PATH
                   value: auth/kubernetes/preprod/sbs/login
           serviceAccount: default
