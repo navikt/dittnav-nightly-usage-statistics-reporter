@@ -84,7 +84,7 @@ spec:
                 - name: VAULT_SIDEKICK_ROLE
                   value: dittnav-nightly-usage-statistics-reporter
                 - name: VAULT_K8S_LOGIN_PATH
-                  value: auth/kubernetes/preprod/sbs/login
+                  value: auth/kubernetes/{{cluster}}/sbs/login
           serviceAccount: default
           serviceAccountName: default
           volumes:
