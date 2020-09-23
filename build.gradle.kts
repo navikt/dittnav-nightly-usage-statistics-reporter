@@ -4,7 +4,7 @@ plugins {
     val kotlinVersion = "1.3.71"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.allopen") version kotlinVersion
-    id(Shadow.pluginId) version Shadow.version
+    id("com.github.johnrengelman.shadow") version "6.0.0"
 
     application
 }
@@ -53,12 +53,6 @@ dependencies {
 }
 
 tasks {
-    withType<Jar> {
-        manifest {
-            attributes["Main-Class"] = application.mainClassName
-        }
-    }
-
     withType<Test> {
         useJUnitPlatform()
         testLogging {
