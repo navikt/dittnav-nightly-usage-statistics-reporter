@@ -35,17 +35,17 @@ configurations["intTestRuntimeOnly"].extendsFrom(configurations.testRuntimeOnly.
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation(Hikari.cp)
+    implementation(Influxdb.java)
     implementation(Kotlinx.coroutines)
     implementation(Logback.classic)
     implementation(Logstash.logbackEncoder)
     implementation(NAV.vaultJdbc)
-    implementation(Hikari.cp)
     implementation(Postgresql.postgresql)
-    implementation(Influxdb.java)
-    testImplementation(Junit.engine)
-    testImplementation(Junit.api)
     testImplementation(kotlin("test-junit5"))
     testImplementation(H2Database.h2)
+    testImplementation(Junit.engine)
+    testImplementation(Junit.api)
     testImplementation(Mockk.mockk)
 
     intTestImplementation(Junit.engine)
