@@ -83,3 +83,5 @@ val integrationTest = task<Test>("integrationTest") {
 }
 
 tasks.check { dependsOn(integrationTest) }
+
+apply(plugin = Shadow.pluginId)
