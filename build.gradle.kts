@@ -1,27 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val vaultJdbcVersion = "1.3.1"
-val hikariCPVersion = "3.2.0"
-val postgresVersion = "42.2.5"
-val coroutinesVersion = "1.3.6"
-val influxdbVersion = "2.8"
-val mockkVersion = "1.9.3"
-val h2Version = "1.4.200"
-val junitVersion = "5.4.1"
-val logstashVersion = "5.2"
-val logbackVersion = "1.2.3"
-
-
 plugins {
-    val kotlinVersion = "1.3.71"
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.allopen") version kotlinVersion
+    kotlin("jvm") version Kotlin.version
+    kotlin("plugin.allopen") version Kotlin.version
+    id(Shadow.pluginId) version Shadow.version
 
     application
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 application {
@@ -46,31 +34,24 @@ val intTestImplementation by configurations.getting {
 configurations["intTestRuntimeOnly"].extendsFrom(configurations.testRuntimeOnly.get())
 
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    compile("ch.qos.logback:logback-classic:$logbackVersion")
-    compile("net.logstash.logback:logstash-logback-encoder:$logstashVersion")
-    compile("no.nav:vault-jdbc:$vaultJdbcVersion")
-    compile("com.zaxxer:HikariCP:$hikariCPVersion")
-    compile("org.postgresql:postgresql:$postgresVersion")
-    compile("org.influxdb:influxdb-java:$influxdbVersion")
-    testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
-    testCompile(kotlin("test-junit5"))
-    testImplementation("com.h2database:h2:$h2Version")
-    testImplementation("io.mockk:mockk:$mockkVersion")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(Hikari.cp)
+    implementation(Influxdb.java)
+    implementation(Kotlinx.coroutines)
+    implementation(Logback.classic)
+    implementation(Logstash.logbackEncoder)
+    implementation(NAV.vaultJdbc)
+    implementation(Postgresql.postgresql)
+    testImplementation(kotlin("test-junit5"))
+    testImplementation(H2Database.h2)
+    testImplementation(Junit.engine)
+    testImplementation(Junit.api)
+    testImplementation(Mockk.mockk)
 
-    intTestImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    intTestImplementation(Junit.engine)
 }
 
 tasks {
-    withType<Jar> {
-        manifest {
-            attributes["Main-Class"] = application.mainClassName
-        }
-        from(configurations.runtime.get().map { if (it.isDirectory) it else zipTree(it) })
-    }
-
     withType<Test> {
         useJUnitPlatform()
         testLogging {
@@ -102,3 +83,5 @@ val integrationTest = task<Test>("integrationTest") {
 }
 
 tasks.check { dependsOn(integrationTest) }
+
+apply(plugin = Shadow.pluginId)
