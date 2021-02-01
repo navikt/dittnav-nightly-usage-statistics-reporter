@@ -1,9 +1,8 @@
 package no.nav.personbruker.dittnav.metrics.reporting
 
-import kotlinx.coroutines.delay
+import no.nav.personbruker.dittnav.common.metrics.MetricsReporter
 import no.nav.personbruker.dittnav.metrics.database.entity.DecimalMeasurement
 import no.nav.personbruker.dittnav.metrics.database.entity.IntegerMeasurement
-import no.nav.personbruker.dittnav.metrics.reporting.influx.RetriableIOException
 import org.slf4j.LoggerFactory
 
 class MeasurementCollector(private val metricsReporter: MetricsReporter) {
@@ -67,22 +66,9 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
     }
 
     private suspend fun registerDataPoint(measurement: String, fields: Map<String, Any>, tags: Map<String, String>) {
-        var attempts = 0
-        var success = false
-
-        while (attempts < REPORTING_ATTEMPTS && !success) {
-            try {
-                metricsReporter.registerDataPoint(measurement, fields, tags)
-                success = true
-            } catch (e: RetriableIOException) {
-                attempts++
-                delay(100)
-            } catch (e: Exception) {
-                break
-            }
-        }
-
-        if (!success) {
+        try {
+            metricsReporter.registerDataPoint(measurement, fields, tags)
+        } catch (e: Exception) {
             log.warn("Klarte ikke rapportere metrikk {$measurement, ${tags["type"]}}. Hopper over.")
         }
     }
