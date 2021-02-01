@@ -2,9 +2,9 @@ package no.nav.personbruker.dittnav.metrics.database
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import no.nav.personbruker.dittnav.common.util.config.StringEnvVar.getEnvVar
 import no.nav.personbruker.dittnav.metrics.config.ConfigUtil
 import no.nav.personbruker.dittnav.metrics.config.Environment
-import no.nav.personbruker.dittnav.metrics.config.getEnvVar
 import no.nav.vault.jdbc.hikaricp.HikariCPVaultUtil
 
 class PostgresDatabase(env: Environment) : Database {

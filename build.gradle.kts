@@ -18,6 +18,7 @@ application {
 
 repositories {
     mavenCentral()
+    maven("https://jitpack.io")
     mavenLocal()
 }
 
@@ -35,6 +36,8 @@ configurations["intTestRuntimeOnly"].extendsFrom(configurations.testRuntimeOnly.
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation(DittNAV.Common.utils)
+    implementation(DittNAV.Common.influx)
     implementation(Hikari.cp)
     implementation(Influxdb.java)
     implementation(Kotlinx.coroutines)
@@ -69,7 +72,7 @@ tasks {
         environment("DB_MOUNT_PATH", "notUsedOnLocalhost")
         environment("CLUSTER_NAME", "dev-sbs")
         environment("SENSU_HOST", "stub")
-        environment("SENSU_PORT", "")
+        environment("SENSU_PORT", "0")
     }
 }
 
