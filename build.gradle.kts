@@ -9,11 +9,11 @@ plugins {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "13"
 }
 
 application {
-    mainClassName = "no.nav.personbruker.dittnav.metrics.MainKt"
+    mainClass.set("no.nav.personbruker.dittnav.metrics.MainKt")
 }
 
 repositories {
@@ -63,7 +63,7 @@ tasks {
         }
     }
 
-    "run" (JavaExec::class) {
+    register("runServer", JavaExec::class) {
         environment("SERVICEUSER_USERNAME", "username")
         environment("SERVICEUSER_PASSWORD", "password")
         environment("DB_HOST", "localhost:5432")
@@ -87,4 +87,7 @@ val integrationTest = task<Test>("integrationTest") {
 
 tasks.check { dependsOn(integrationTest) }
 
+// TODO: Fjern følgende work around i ny versjon av Shadow-pluginet:
+// Skal være løst i denne: https://github.com/johnrengelman/shadow/pull/612
+project.setProperty("mainClassName", application.mainClass.get())
 apply(plugin = Shadow.pluginId)
