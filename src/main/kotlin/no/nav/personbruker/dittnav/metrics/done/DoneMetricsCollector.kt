@@ -20,4 +20,5 @@ class DoneMetricsCollector(private val doneRepository: DoneRepository,
             log.warn("Klarte ikke hente inn data for antall done-eventer per bruker. Tid brukt: ${processingTime}ms.")
         }
     }
+
 }
