@@ -87,7 +87,7 @@ jobs:
         uses: 'nais/deploy/actions/deploy@v1'
         env:
           REF: ${{ github.sha }}
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_MIN_SIDE }}
           CLUSTER: prod-gcp
           RESOURCE: ./nais/prod-gcp/nais.yaml
           VAR: version=${{ env.IMAGE }}
@@ -101,7 +101,7 @@ jobs:
         uses: 'nais/deploy/actions/deploy@v1'
         env:
           REF: ${{ github.sha }}
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_MIN_SIDE }}
           CLUSTER: dev-gcp
           RESOURCE: ./nais/dev-gcp/nais.yaml
           VAR: version=${{ env.IMAGE }}
