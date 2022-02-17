@@ -10,7 +10,6 @@ class H2Database : Database {
 
     init {
         memDataSource = createDataSource()
-        createTablesAndData()
     }
 
     override val dataSource: HikariDataSource
@@ -25,7 +24,7 @@ class H2Database : Database {
         }
     }
 
-    private fun createTablesAndData() {
+    fun createTablesAndData() {
         executeFilesInDirectory("/db/tables/")
 
         executeFilesInDirectory("/db/data/")

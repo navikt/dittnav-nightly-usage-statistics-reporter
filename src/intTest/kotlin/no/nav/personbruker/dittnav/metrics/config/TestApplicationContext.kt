@@ -21,7 +21,9 @@ import no.nav.personbruker.dittnav.metrics.total.TotalEventsRepository
 class TestApplicationContext: ApplicationContext {
 
     private val environment = testEnvironment()
-    private val database: Database = H2Database()
+    private val database: Database = H2Database().also {
+        it.createTablesAndData()
+    }
 
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
