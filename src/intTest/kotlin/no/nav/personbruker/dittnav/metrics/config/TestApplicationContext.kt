@@ -2,8 +2,6 @@ package no.nav.personbruker.dittnav.metrics.config
 
 import io.mockk.coEvery
 import io.mockk.mockk
-import no.nav.personbruker.dittnav.common.util.config.IntEnvVar
-import no.nav.personbruker.dittnav.common.util.config.StringEnvVar
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedStatisticsService
 import no.nav.personbruker.dittnav.metrics.database.Database

@@ -3,6 +3,7 @@ package no.nav.personbruker.dittnav.metrics.config
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedStatisticsService
 import no.nav.personbruker.dittnav.metrics.database.Database
+import no.nav.personbruker.dittnav.metrics.database.H2Database
 import no.nav.personbruker.dittnav.metrics.database.PostgresDatabase
 import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
 import no.nav.personbruker.dittnav.metrics.done.DoneRepository
@@ -18,7 +19,7 @@ import no.nav.personbruker.dittnav.metrics.total.TotalEventsMetricsCollector
 class DefaultApplicationContext: ApplicationContext {
 
     private val environment = Environment()
-    private val database: Database = PostgresDatabase(environment)
+    private val database: Database = H2Database()
 
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
