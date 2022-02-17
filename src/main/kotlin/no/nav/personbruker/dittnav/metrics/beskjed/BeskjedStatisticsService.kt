@@ -79,7 +79,7 @@ class BeskjedStatisticsService(
         client.get(url, azureTokenFetcher)
 
     private suspend fun getMeasurement(url: URL): IntegerMeasurement =
-        client.get<EventCountForProducer>(url, azureTokenFetcher).toIntegerMeasurement()
+        client.get<List<EventCountForProducer>>(url, azureTokenFetcher).first().toIntegerMeasurement()
 
     private suspend fun getCount(url: URL): Int =
         client.get(url, azureTokenFetcher)
