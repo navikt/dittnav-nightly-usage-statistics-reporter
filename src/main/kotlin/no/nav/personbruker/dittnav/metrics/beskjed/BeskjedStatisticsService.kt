@@ -5,6 +5,8 @@ import no.nav.personbruker.dittnav.metrics.config.AzureTokenFetcher
 import no.nav.personbruker.dittnav.metrics.config.EventType
 import no.nav.personbruker.dittnav.metrics.config.get
 import no.nav.personbruker.dittnav.metrics.database.entity.*
+import no.nav.personbruker.dittnav.metrics.reporting.EventCountForProducer
+import no.nav.personbruker.dittnav.metrics.reporting.toIntegerMeasurement
 import java.net.URL
 
 class BeskjedStatisticsService(
@@ -77,7 +79,7 @@ class BeskjedStatisticsService(
         client.get(url, azureTokenFetcher)
 
     private suspend fun getMeasurement(url: URL): IntegerMeasurement =
-        client.get(url, azureTokenFetcher)
+        client.get<EventCountForProducer>(url, azureTokenFetcher).toIntegerMeasurement()
 
     private suspend fun getCount(url: URL): Int =
         client.get(url, azureTokenFetcher)
