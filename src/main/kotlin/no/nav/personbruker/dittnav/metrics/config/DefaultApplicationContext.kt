@@ -1,7 +1,7 @@
 package no.nav.personbruker.dittnav.metrics.config
 
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
-import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedRepository
+import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedStatisticsService
 import no.nav.personbruker.dittnav.metrics.database.Database
 import no.nav.personbruker.dittnav.metrics.database.PostgresDatabase
 import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
@@ -23,7 +23,9 @@ class DefaultApplicationContext: ApplicationContext {
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
 
-    private val beskjedRepository = BeskjedRepository(database)
+    private val httpClient = HttpClientBuilder.build()
+    private val azureTokenFetcher = AzureTokenFetcher(environment.eventHandlerAppEnvironmentDetails)
+    private val beskjedRepository = BeskjedStatisticsService(httpClient, azureTokenFetcher, environment.eventHandlerURL)
     override val beskjedMetricsCollector = BeskjedMetricsCollector(beskjedRepository, measurementCollector)
 
     private val oppgaveRepository = OppgaveRepository(database)

@@ -1,9 +1,14 @@
 package no.nav.personbruker.dittnav.metrics.config
 
+import io.mockk.coEvery
+import io.mockk.mockk
+import no.nav.personbruker.dittnav.common.util.config.IntEnvVar
+import no.nav.personbruker.dittnav.common.util.config.StringEnvVar
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
-import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedRepository
+import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedStatisticsService
 import no.nav.personbruker.dittnav.metrics.database.Database
 import no.nav.personbruker.dittnav.metrics.database.H2Database
+import no.nav.personbruker.dittnav.metrics.database.entity.IntegerMeasurement
 import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
 import no.nav.personbruker.dittnav.metrics.done.DoneRepository
 import no.nav.personbruker.dittnav.metrics.innboks.InnboksMetricsCollector
@@ -23,8 +28,12 @@ class TestApplicationContext: ApplicationContext {
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
 
-    private val beskjedRepository = BeskjedRepository(database)
-    override val beskjedMetricsCollector = BeskjedMetricsCollector(beskjedRepository, measurementCollector)
+    private val beskjedStatisticsService = mockk<BeskjedStatisticsService>(relaxed = true).also {
+        coEvery { it.getBeskjedEventsPerUser() } returns IntegerMeasurement(
+            1, 2, 1.5, 1, 1, 1, 1, 1
+        )
+    }
+    override val beskjedMetricsCollector = BeskjedMetricsCollector(beskjedStatisticsService, measurementCollector)
 
     private val oppgaveRepository = OppgaveRepository(database)
     override val oppgaveMetricsCollector = OppgaveMetricsCollector(oppgaveRepository, measurementCollector)
@@ -40,13 +49,21 @@ class TestApplicationContext: ApplicationContext {
 }
 
 private fun testEnvironment() = Environment(
-        dbAdmin = "N/A",
-        dbHost = "N/A",
-        dbMountPath = "N/A",
-        dbName = "N/A",
-        dbUrl = "N/A",
-        dbUser = "N/A",
-        clusterName = "N/A",
-        sensuHost = "stub",
-        sensuPort = 0
-    )
+    dbHost = "N/A",
+    dbName = "N/A",
+    dbAdmin = "N/A",
+    dbUser = "N/A",
+    dbUrl = "N/A",
+    dbMountPath = "N/A",
+    clusterName = "N/A",
+    namespace = "N/A",
+    appnavn = "N/A",
+influxdbHost = "",
+influxdbPort = 8000,
+influxdbName = "",
+influxdbUser = "",
+influxdbPassword = "",
+influxdbRetentionPolicy = "",
+eventHandlerURL = "",
+eventHandlerAppEnvironmentDetails = "",
+)

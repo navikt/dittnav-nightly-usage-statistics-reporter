@@ -4,7 +4,7 @@ import no.nav.personbruker.dittnav.metrics.reporting.*
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType.BESKJED
 import org.slf4j.LoggerFactory
 
-class BeskjedMetricsCollector(private val beskjedRepository: BeskjedRepository,
+class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsService,
                               private val measurementCollector: MeasurementCollector) {
 
     val log = LoggerFactory.getLogger(BeskjedMetricsCollector::class.java)

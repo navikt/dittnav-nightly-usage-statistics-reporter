@@ -1,0 +1,20 @@
+apiVersion: nais.io/v1
+kind: Naisjob
+metadata:
+  name: dittnav-nightly-usage-statistics-reporter
+  namespace: min-side
+  labels:
+    team: min-side
+spec:
+  # schedule: 0 1 * * *
+  image: {{version}}
+  envFrom:
+    - secret: dittnav-nightly-usage-statistics-reporter
+    - secret: influxdb-credentials
+  azure:
+    application:
+      enabled: true
+  accessPolicy:
+    outbound:
+      rules:
+        - application: dittnav-event-handler

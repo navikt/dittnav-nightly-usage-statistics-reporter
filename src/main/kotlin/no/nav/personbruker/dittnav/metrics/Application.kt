@@ -11,16 +11,16 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
     suspend fun runMetricsReporting() {
         log.info("Initiating collection and reporting of dittnav cache metrics.")
         runBeskjedMetricsReporting()
-        runOppgaveMetricsReporting()
-        runInnboksMetricsReporting()
-        runTotalEventsMetricsReporting()
-        runDoneEventsMetricsReporting()
+//        runOppgaveMetricsReporting()
+//        runInnboksMetricsReporting()
+//        runTotalEventsMetricsReporting()
+//        runDoneEventsMetricsReporting()
     }
     
     private suspend fun runBeskjedMetricsReporting() {
         applicationContext.beskjedMetricsCollector.run {
             getAndReportBeskjedEventsPerUser()
-            getAndReportVisibleBeskjedEventsPerUser()
+      /*      getAndReportVisibleBeskjedEventsPerUser()
             getAndReportActiveBeskjedEventsPerUser()
             getAndReportBeskjedEventActiveRate()
             getAndReportExpiredBeskjedEventsPerUser()
@@ -34,7 +34,7 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
             getAndReportNumberOfBeskjedEvents()
             getAndReportNumberOfVisibleBeskjedEvents()
             getAndReportNumberOfActiveBeskjedEvents()
-            getAndReportNumberOfExpiredBeskjedEvents()
+            getAndReportNumberOfExpiredBeskjedEvents()*/
         }
     }    
     
