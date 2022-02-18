@@ -1,7 +1,7 @@
 apiVersion: nais.io/v1
 kind: Naisjob
 metadata:
-  name: dittnav-nightly-statistics
+  name: dittnav-nightly-usage-statistics-reporter
   namespace: min-side
   labels:
     team: min-side
