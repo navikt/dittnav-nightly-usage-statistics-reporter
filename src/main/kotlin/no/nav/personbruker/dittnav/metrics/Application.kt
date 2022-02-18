@@ -15,6 +15,7 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
 //        runInnboksMetricsReporting()
 //        runTotalEventsMetricsReporting()
 //        runDoneEventsMetricsReporting()
+
         log.info("Finished metrics collection and reporting.")
     }
     
