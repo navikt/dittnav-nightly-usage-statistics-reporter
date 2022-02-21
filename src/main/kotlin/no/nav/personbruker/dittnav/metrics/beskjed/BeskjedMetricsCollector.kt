@@ -14,7 +14,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
             beskjedRepository.getBeskjedEventsPerUser()
         }.onSuccess { measurement, processingTime ->
             //measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_USER, BESKJED, processingTime)
-            measurementCollector.recordIntegerMeasurement(measurement, "test-deploy-setup", BESKJED, processingTime)
+            measurementCollector.recordIntegerMeasurement(measurement, "test.deploy.setup", BESKJED, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall beskjed-eventer per bruker. Tid brukt: ${processingTime}ms.")
         }
