@@ -24,7 +24,8 @@ private fun createInfluxConfig(environment: Environment) = InfluxConfig(
     clusterName = environment.clusterName,
     namespace = environment.namespace,
     userName = environment.influxdbUser,
-    password = environment.influxdbPassword
+    password = environment.influxdbPassword,
+    enableEventBatching = false
 )
 /*
 
