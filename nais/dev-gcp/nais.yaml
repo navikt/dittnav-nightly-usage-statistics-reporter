@@ -14,6 +14,8 @@ spec:
   azure:
     application:
       enabled: true
+  influx:
+    instance: influx-min-side
   accessPolicy:
     outbound:
       rules:
