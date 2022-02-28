@@ -6,6 +6,7 @@ import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedStatisticsService
 import no.nav.personbruker.dittnav.metrics.database.Database
 import no.nav.personbruker.dittnav.metrics.database.H2Database
+import no.nav.personbruker.dittnav.metrics.database.entity.DecimalMeasurement
 import no.nav.personbruker.dittnav.metrics.database.entity.IntegerMeasurement
 import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
 import no.nav.personbruker.dittnav.metrics.done.DoneRepository
