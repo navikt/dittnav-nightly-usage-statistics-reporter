@@ -22,21 +22,15 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
     private suspend fun runBeskjedMetricsReporting() {
         applicationContext.beskjedMetricsCollector.run {
             getAndReportBeskjedEventsPerUser()
-      /*      getAndReportVisibleBeskjedEventsPerUser()
             getAndReportActiveBeskjedEventsPerUser()
             getAndReportBeskjedEventActiveRate()
-            getAndReportExpiredBeskjedEventsPerUser()
-            getAndReportBeskjedEventExpiredRate()
-            getAndReportExpiredBeskjedEventPerUserByInvisible()
             getAndReportBeskjedEventsPerGroupId()
             getAndReportBeskjedGroupIdsPerUser()
             getAndReportBeskjedEventTextLength()
 
             getAndReportNumberOfUsersWithBeskjedEvents()
             getAndReportNumberOfBeskjedEvents()
-            getAndReportNumberOfVisibleBeskjedEvents()
             getAndReportNumberOfActiveBeskjedEvents()
-            getAndReportNumberOfExpiredBeskjedEvents()*/
         }
     }    
     

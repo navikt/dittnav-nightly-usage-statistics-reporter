@@ -13,20 +13,9 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
         tryFetch {
             beskjedRepository.getBeskjedEventsPerUser()
         }.onSuccess { measurement, processingTime ->
-            //measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_USER, BESKJED, processingTime)
-            measurementCollector.recordIntegerMeasurement(measurement, "test.deploy.setup", BESKJED, processingTime)
+            measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_USER, BESKJED, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall beskjed-eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportVisibleBeskjedEventsPerUser() {
-        tryFetch {
-            beskjedRepository.getVisibleBeskjedEventsPerUser()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, VISIBLE_EVENTS_PER_USER, BESKJED, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige beskjed-eventer per bruker. Tid brukt: ${processingTime}ms.")
         }
     }
 
@@ -47,36 +36,6 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
             measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, BESKJED, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for andel aktive beskjeder per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportExpiredBeskjedEventsPerUser() {
-        tryFetch {
-            beskjedRepository.getExpiredBeskjedEventsPerUser()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, EXPIRED_EVENTS_PER_USER, BESKJED, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall utgåtte beskjed-eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportBeskjedEventExpiredRate() {
-        tryFetch {
-            beskjedRepository.getBeskjedEventExpiredRate()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordDecimalMeasurement(measurement, EVENT_EXPIRED_RATE_PER_USER, BESKJED, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for andel utgåtte beskjed-eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportExpiredBeskjedEventPerUserByInvisible() {
-        tryFetch {
-            beskjedRepository.getExpiredBeskjedEventPerUserByInvisible()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordDecimalMeasurement(measurement, EVENT_EXPIRED_RATE_PER_USER_BY_INVISIBLE, BESKJED, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for utgåtte beskjed-eventer som andel av skjulte eventer per bruker. Tid brukt: ${processingTime}ms.")
         }
     }
 
@@ -130,16 +89,6 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
         }
     }
 
-    suspend fun getAndReportNumberOfVisibleBeskjedEvents() {
-        tryFetch {
-            beskjedRepository.getNumberOfVisibleBeskjedEvents()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_VISIBLE_EVENTS, BESKJED, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige beskjed-eventer. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportNumberOfActiveBeskjedEvents() {
         tryFetch {
             beskjedRepository.getNumberOfActiveBeskjedEvents()
@@ -149,15 +98,4 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
             log.warn("Klarte ikke hente inn data for antall aktive beskjed-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
-
-    suspend fun getAndReportNumberOfExpiredBeskjedEvents() {
-        tryFetch {
-            beskjedRepository.getNumberOfExpiredBeskjedEvents()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_EXPIRED_EVENTS, BESKJED, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall utgåtte beskjed-eventer. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
 }
