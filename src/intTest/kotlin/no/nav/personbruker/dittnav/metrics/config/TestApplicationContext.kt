@@ -28,10 +28,22 @@ class TestApplicationContext: ApplicationContext {
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
 
+    private val mockIntMeasurement = IntegerMeasurement(
+        1, 2, 1.5, 1, 1, 1, 1, 1
+    )
+    private val mockDecimalMeasurement = DecimalMeasurement(
+        1.0, 2.0, 1.5, 1.0, 1.0, 1.0, 1.0, 1.0
+    )
     private val beskjedStatisticsService = mockk<BeskjedStatisticsService>(relaxed = true).also {
-        coEvery { it.getBeskjedEventsPerUser() } returns IntegerMeasurement(
-            1, 2, 1.5, 1, 1, 1, 1, 1
-        )
+        coEvery { it.getBeskjedEventsPerUser() } returns mockIntMeasurement
+        coEvery { it.getActiveBeskjedEventsPerUser() } returns mockIntMeasurement
+        coEvery { it.getBeskjedEventActiveRate() } returns mockDecimalMeasurement
+        coEvery { it.getBeskjedEventsPerGroupId() } returns mockIntMeasurement
+        coEvery { it.getBeskjedGroupIdsPerUser() } returns mockIntMeasurement
+        coEvery { it.getBeskjedEventTextLength() } returns mockIntMeasurement
+        coEvery { it.getNumberOfUsersWithBeskjedEvents() } returns 1
+        coEvery { it.getNumberOfBeskjedEvents() } returns 1
+        coEvery { it.getNumberOfActiveBeskjedEvents() } returns 1
     }
     override val beskjedMetricsCollector = BeskjedMetricsCollector(beskjedStatisticsService, measurementCollector)
 
