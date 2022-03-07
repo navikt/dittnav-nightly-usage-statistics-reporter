@@ -12,59 +12,39 @@ class PostgresDatabase(env: Environment) : Database {
     private val envDataSource: HikariDataSource
 
     init {
-        envDataSource = createCorrectConnectionForEnvironment(env)
+        envDataSource = createConnectionForLocalDbWithDbUser(env)
     }
 
     override val dataSource: HikariDataSource
         get() = envDataSource
 
-
-    private fun createCorrectConnectionForEnvironment(env: Environment): HikariDataSource {
-        return when (ConfigUtil.isCurrentlyRunningInCluster()) {
-            true -> createConnectionViaVaultWithDbUser(env)
-            false -> createConnectionForLocalDbWithDbUser(env)
-        }
-    }
-
     private fun createConnectionForLocalDbWithDbUser(env: Environment): HikariDataSource {
-        return hikariFromLocalDb(env, env.dbUser)
-    }
-
-    private fun createConnectionViaVaultWithDbUser(env: Environment): HikariDataSource {
-        return hikariDatasourceViaVault(env, env.dbUser)
+        return hikariFromLocalDb(env)
     }
 
     companion object {
 
-        fun hikariFromLocalDb(env: Environment, dbUser: String): HikariDataSource {
-            val dbPassword: String = getEnvVar("DB_PASSWORD")
-            val config = hikariCommonConfig(env).apply {
-                username = dbUser
-                password = dbPassword
-                validate()
-            }
+        fun hikariFromLocalDb(env: Environment): HikariDataSource {
+            val config = hikariCommonConfig(env)
+            config.validate()
             return HikariDataSource(config)
         }
 
-        fun hikariDatasourceViaVault(env: Environment, dbUser: String): HikariDataSource {
-            val config = hikariCommonConfig(env)
-            config.validate()
-            return HikariCPVaultUtil.createHikariDataSourceWithVaultIntegration(config, env.dbMountPath, dbUser)
-        }
-
         private fun hikariCommonConfig(env: Environment): HikariConfig {
-            val config = HikariConfig().apply {
-                driverClassName = "org.postgresql.Driver"
-                jdbcUrl = env.dbUrl
-                minimumIdle = 0
-                maxLifetime = 30001
-                maximumPoolSize = 5
-                connectionTimeout = 1000
-                validationTimeout = 250
-                idleTimeout = 10001
-                isAutoCommit = false
-                transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-            }
+            val config = HikariConfig()
+            config.driverClassName = "org.postgresql.Driver"
+            config.jdbcUrl = env.dbUrl
+            config.minimumIdle = 0
+            config.maxLifetime = 1800000
+            config.maximumPoolSize = 20
+            config.connectionTimeout = 3000
+            config.validationTimeout = 500
+            config.idleTimeout = 30000
+            config.isAutoCommit = false
+            config.isReadOnly = true
+            config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+            config.username = env.dbUser
+            config.password = env.dbPassword
             return config
         }
     }

@@ -64,10 +64,10 @@ class TestApplicationContext: ApplicationContext {
 private fun testEnvironment() = Environment(
     dbHost = "N/A",
     dbName = "N/A",
-    dbAdmin = "N/A",
     dbUser = "N/A",
     dbUrl = "N/A",
-    dbMountPath = "N/A",
+    dbPort = "123",
+    dbPassword = "N/A",
     clusterName = "N/A",
     namespace = "N/A",
     appnavn = "N/A",

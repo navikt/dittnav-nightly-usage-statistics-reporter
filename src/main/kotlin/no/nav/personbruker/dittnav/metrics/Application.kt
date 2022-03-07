@@ -10,8 +10,8 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
 
     suspend fun runMetricsReporting() {
         log.info("Initiating collection and reporting of dittnav cache metrics.")
-        runBeskjedMetricsReporting()
-//        runOppgaveMetricsReporting()
+//        runBeskjedMetricsReporting()
+        runOppgaveMetricsReporting()
 //        runInnboksMetricsReporting()
 //        runTotalEventsMetricsReporting()
 //        runDoneEventsMetricsReporting()
@@ -54,7 +54,6 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
     private suspend fun runInnboksMetricsReporting() {
         applicationContext.innboksMetricsCollector.run {
             getAndReportInnboksEventsPerUser()
-            getAndReportVisibleInnboksEventsPerUser()
             getAndReportActiveInnboksEventsPerUser()
             getAndReportInnboksEventActiveRatePerUser()
             getAndReportInnboksEventsPerGroupId()
@@ -63,7 +62,6 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
 
             getAndReportNumberOfUsersWithInnboksEvents()
             getAndReportNumberOfInnboksEvents()
-            getAndReportNumberOfVisibleInnboksEvents()
             getAndReportNumberOfActiveInnboksEvents()
         }
     }

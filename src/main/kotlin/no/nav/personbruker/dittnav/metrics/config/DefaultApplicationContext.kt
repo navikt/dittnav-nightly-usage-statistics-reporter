@@ -19,7 +19,7 @@ import no.nav.personbruker.dittnav.metrics.total.TotalEventsMetricsCollector
 class DefaultApplicationContext: ApplicationContext {
 
     private val environment = Environment()
-    private val database: Database = H2Database()
+    private val database: Database = PostgresDatabase(environment)
 
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
