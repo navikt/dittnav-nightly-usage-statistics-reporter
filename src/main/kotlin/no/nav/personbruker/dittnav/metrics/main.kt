@@ -9,8 +9,8 @@ val log = LoggerFactory.getLogger(Application::class.java)
 
 fun main() = runBlocking {
     try {
-//        log.info("Venter for azure key mount")
-//        delay(30 * 1000)
+        log.info("Venter for azure key mount")
+        delay(30 * 1000)
         Application().runMetricsReporting()
     } catch (e: Exception) {
         log.warn("Failed to run metrics reporting", e)
