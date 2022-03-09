@@ -1,16 +1,17 @@
-package no.nav.personbruker.dittnav.metrics.total
+package no.nav.personbruker.dittnav.metrics.collectors
 
+import no.nav.personbruker.dittnav.metrics.common.StatisticsService
 import no.nav.personbruker.dittnav.metrics.reporting.*
 import org.slf4j.LoggerFactory
 
-class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEventsRepository,
-                                   private val measurementCollector: MeasurementCollector) {
+class TotalEventsMetricsCollector(private val statisticsService: StatisticsService,
+                                  private val measurementCollector: MeasurementCollector) {
 
     val log = LoggerFactory.getLogger(TotalEventsMetricsCollector::class.java)
 
     suspend fun getAndReportEventsPerUser() {
         tryFetch {
-            totalEventsRepository.getEventsPerUser()
+            statisticsService.getTotalEventsPerUser()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_USER, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -18,19 +19,9 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
         }
     }
 
-    suspend fun getAndReportVisibleEventsPerUser() {
-        tryFetch {
-            totalEventsRepository.getVisibleEventsPerUser()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, VISIBLE_EVENTS_PER_USER, MeasurementEventType.ANY, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportActiveEventsPerUser() {
         tryFetch {
-            totalEventsRepository.getActiveEventsPerUser()
+            statisticsService.getTotalActiveEventsPerUser()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, ACTIVE_EVENTS_PER_USER, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -40,7 +31,7 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
 
     suspend fun getAndReportEventActiveRatePerUser() {
         tryFetch {
-            totalEventsRepository.getEventActiveRatePerUser()
+            statisticsService.getTotalEventActiveRatePerUser()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -48,39 +39,9 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
         }
     }
 
-    suspend fun getAndReportExpiredEventsPerUser() {
-        tryFetch {
-            totalEventsRepository.getExpiredEventsPerUser()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, EXPIRED_EVENTS_PER_USER, MeasurementEventType.ANY, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall utgåtte eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportEventExpiredRate() {
-        tryFetch {
-            totalEventsRepository.getEventExpiredRate()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordDecimalMeasurement(measurement, EVENT_EXPIRED_RATE_PER_USER, MeasurementEventType.ANY, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for andel utgåtte eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportExpiredEventPerUserByInvisible() {
-        tryFetch {
-            totalEventsRepository.getExpiredEventPerUserByInvisible()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordDecimalMeasurement(measurement, EVENT_EXPIRED_RATE_PER_USER_BY_INVISIBLE, MeasurementEventType.ANY, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for utgåtte eventer som andel av skjulte eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportEventsPerGroupId() {
         tryFetch {
-            totalEventsRepository.getEventsPerGroupId()
+            statisticsService.getTotalEventsPerGroupId()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_GROUP_ID, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -90,7 +51,7 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
 
     suspend fun getAndReportGroupIdsPerUser() {
         tryFetch {
-            totalEventsRepository.getGroupIdsPerUser()
+            statisticsService.getTotalGroupIdsPerUser()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, GROUP_IDS_PER_USER, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -100,7 +61,7 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
 
     suspend fun getAndReportEventTextLength() {
         tryFetch {
-            totalEventsRepository.getEventTextLength()
+            statisticsService.getTotalEventTextLength()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENT_TEXT_LENGTH, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -110,7 +71,7 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
 
     suspend fun getAndReportNumberOfUsersWithEvents() {
         tryFetch {
-            totalEventsRepository.getNumberOfUsersWithEvents()
+            statisticsService.getTotalNumberOfUsersWithEvents()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, USERS_WITH_EVENTS, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -120,7 +81,7 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
 
     suspend fun getAndReportNumberOfEvents() {
         tryFetch {
-            totalEventsRepository.getNumberOfEvents()
+            statisticsService.getTotalNumberOfEvents()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_EVENTS, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
@@ -128,32 +89,13 @@ class TotalEventsMetricsCollector (private val totalEventsRepository: TotalEvent
         }
     }
 
-    suspend fun getAndReportNumberOfVisibleEvents() {
-        tryFetch {
-            totalEventsRepository.getNumberOfVisibleEvents()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_VISIBLE_EVENTS, MeasurementEventType.ANY, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige eventer. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportNumberOfActiveEvents() {
         tryFetch {
-            totalEventsRepository.getNumberOfActiveEvents()
+            statisticsService.getTotalNumberOfActiveEvents()
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, MeasurementEventType.ANY, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall aktive eventer. Tid brukt: ${processingTime}ms.")
         }
     }
-
-    suspend fun getAndReportNumberOfExpiredEvents() {
-        tryFetch {
-            totalEventsRepository.getNumberOfExpiredEvents()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_EXPIRED_EVENTS, MeasurementEventType.ANY, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall utgåtte eventer. Tid brukt: ${processingTime}ms.")
-        }
-    } }
+}

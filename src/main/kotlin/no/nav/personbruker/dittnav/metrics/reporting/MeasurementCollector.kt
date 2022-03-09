@@ -1,8 +1,8 @@
 package no.nav.personbruker.dittnav.metrics.reporting
 
 import no.nav.personbruker.dittnav.common.metrics.MetricsReporter
-import no.nav.personbruker.dittnav.metrics.database.entity.DecimalMeasurement
-import no.nav.personbruker.dittnav.metrics.database.entity.IntegerMeasurement
+import no.nav.personbruker.dittnav.metrics.common.DecimalMeasurement
+import no.nav.personbruker.dittnav.metrics.common.IntegerMeasurement
 import org.slf4j.LoggerFactory
 
 class MeasurementCollector(private val metricsReporter: MetricsReporter) {

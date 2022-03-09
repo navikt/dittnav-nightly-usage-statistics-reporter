@@ -1,7 +1,7 @@
-package no.nav.personbruker.dittnav.metrics.innboks
+package no.nav.personbruker.dittnav.metrics.collectors
 
 import no.nav.personbruker.dittnav.metrics.common.StatisticsService
-import no.nav.personbruker.dittnav.metrics.config.EventType
+import no.nav.personbruker.dittnav.metrics.common.EventType
 import no.nav.personbruker.dittnav.metrics.reporting.*
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType.INNBOKS
 import org.slf4j.LoggerFactory

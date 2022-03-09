@@ -1,22 +1,17 @@
 package no.nav.personbruker.dittnav.metrics.config
 
-import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.BeskjedMetricsCollector
 import no.nav.personbruker.dittnav.metrics.common.StatisticsService
-import no.nav.personbruker.dittnav.metrics.database.Database
-import no.nav.personbruker.dittnav.metrics.database.H2Database
-import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
-import no.nav.personbruker.dittnav.metrics.done.DoneRepository
-import no.nav.personbruker.dittnav.metrics.innboks.InnboksMetricsCollector
-import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.DoneMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.InnboksMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.OppgaveMetricsCollector
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementCollector
 import no.nav.personbruker.dittnav.metrics.reporting.buildMetricsReporter
-import no.nav.personbruker.dittnav.metrics.total.TotalEventsMetricsCollector
-import no.nav.personbruker.dittnav.metrics.total.TotalEventsRepository
+import no.nav.personbruker.dittnav.metrics.collectors.TotalEventsMetricsCollector
 
 class DefaultApplicationContext: ApplicationContext {
 
     private val environment = Environment()
-    private val database: Database = H2Database()
 
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
@@ -28,11 +23,6 @@ class DefaultApplicationContext: ApplicationContext {
     override val beskjedMetricsCollector = BeskjedMetricsCollector(statisticsService, measurementCollector)
     override val oppgaveMetricsCollector = OppgaveMetricsCollector(statisticsService, measurementCollector)
     override val innboksMetricsCollector = InnboksMetricsCollector(statisticsService, measurementCollector)
-
-    private val brukernotifikasjonRepository = TotalEventsRepository(database)
-    override val totalEventsMetricsCollector = TotalEventsMetricsCollector(brukernotifikasjonRepository, measurementCollector)
-
-    private val doneRepository = DoneRepository(database)
-    override val doneMetricsCollector = DoneMetricsCollector(doneRepository, measurementCollector)
-
+    override val doneMetricsCollector = DoneMetricsCollector(statisticsService, measurementCollector)
+    override val totalEventsMetricsCollector = TotalEventsMetricsCollector(statisticsService, measurementCollector)
 }

@@ -1,4 +1,4 @@
-package no.nav.personbruker.dittnav.metrics.database.entity
+package no.nav.personbruker.dittnav.metrics.common
 
 data class IntegerMeasurement (
     val min: Int,
