@@ -2,27 +2,20 @@ package no.nav.personbruker.dittnav.metrics.config
 
 import io.mockk.coEvery
 import io.mockk.mockk
-import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.BeskjedMetricsCollector
 import no.nav.personbruker.dittnav.metrics.common.StatisticsService
-import no.nav.personbruker.dittnav.metrics.database.Database
-import no.nav.personbruker.dittnav.metrics.database.H2Database
-import no.nav.personbruker.dittnav.metrics.database.entity.DecimalMeasurement
-import no.nav.personbruker.dittnav.metrics.database.entity.IntegerMeasurement
-import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
-import no.nav.personbruker.dittnav.metrics.done.DoneRepository
-import no.nav.personbruker.dittnav.metrics.innboks.InnboksMetricsCollector
-import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveMetricsCollector
+import no.nav.personbruker.dittnav.metrics.common.DecimalMeasurement
+import no.nav.personbruker.dittnav.metrics.common.IntegerMeasurement
+import no.nav.personbruker.dittnav.metrics.collectors.DoneMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.InnboksMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.OppgaveMetricsCollector
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementCollector
 import no.nav.personbruker.dittnav.metrics.reporting.buildMetricsReporter
-import no.nav.personbruker.dittnav.metrics.total.TotalEventsMetricsCollector
-import no.nav.personbruker.dittnav.metrics.total.TotalEventsRepository
+import no.nav.personbruker.dittnav.metrics.collectors.TotalEventsMetricsCollector
 
-class TestApplicationContext: ApplicationContext {
+class TestApplicationContext : ApplicationContext {
 
     private val environment = testEnvironment()
-    private val database: Database = H2Database().also {
-        it.createTablesAndData()
-    }
 
     private val metricsReporter = buildMetricsReporter(environment)
     private val measurementCollector = MeasurementCollector(metricsReporter)
@@ -43,34 +36,35 @@ class TestApplicationContext: ApplicationContext {
         coEvery { it.getNumberOfUsersWithEvents(any()) } returns 1
         coEvery { it.getNumberOfEvents(any()) } returns 1
         coEvery { it.getNumberOfActiveEvents(any()) } returns 1
+
+        coEvery { it.getTotalEventsPerUser() } returns mockIntMeasurement
+        coEvery { it.getTotalActiveEventsPerUser() } returns mockIntMeasurement
+        coEvery { it.getTotalEventActiveRatePerUser() } returns mockDecimalMeasurement
+        coEvery { it.getTotalEventsPerGroupId() } returns mockIntMeasurement
+        coEvery { it.getTotalGroupIdsPerUser() } returns mockIntMeasurement
+        coEvery { it.getTotalEventTextLength() } returns mockIntMeasurement
+        coEvery { it.getTotalNumberOfUsersWithEvents() } returns 1
+        coEvery { it.getTotalNumberOfEvents() } returns 1
+        coEvery { it.getTotalNumberOfActiveEvents() } returns 1
     }
     override val beskjedMetricsCollector = BeskjedMetricsCollector(statisticsService, measurementCollector)
     override val oppgaveMetricsCollector = OppgaveMetricsCollector(statisticsService, measurementCollector)
     override val innboksMetricsCollector = InnboksMetricsCollector(statisticsService, measurementCollector)
+    override val doneMetricsCollector = DoneMetricsCollector(statisticsService, measurementCollector)
+    override val totalEventsMetricsCollector = TotalEventsMetricsCollector(statisticsService, measurementCollector)
 
-    private val brukernotifikasjonRepository = TotalEventsRepository(database)
-    override val totalEventsMetricsCollector = TotalEventsMetricsCollector(brukernotifikasjonRepository, measurementCollector)
-
-    private val doneRepository = DoneRepository(database)
-    override val doneMetricsCollector = DoneMetricsCollector(doneRepository, measurementCollector)
 }
 
 private fun testEnvironment() = Environment(
-    dbHost = "N/A",
-    dbName = "N/A",
-    dbUser = "N/A",
-    dbUrl = "N/A",
-    dbPort = "123",
-    dbPassword = "N/A",
     clusterName = "N/A",
     namespace = "N/A",
     appnavn = "N/A",
-influxdbHost = "",
-influxdbPort = 8000,
-influxdbName = "",
-influxdbUser = "",
-influxdbPassword = "",
-influxdbRetentionPolicy = "",
-eventHandlerURL = "",
-eventHandlerAppEnvironmentDetails = "",
+    influxdbHost = "",
+    influxdbPort = 8000,
+    influxdbName = "",
+    influxdbUser = "",
+    influxdbPassword = "",
+    influxdbRetentionPolicy = "",
+    eventHandlerURL = "",
+    eventHandlerAppEnvironmentDetails = "",
 )

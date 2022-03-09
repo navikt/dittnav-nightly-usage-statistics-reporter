@@ -8,6 +8,13 @@ metadata:
 spec:
   schedule: "*/10 * * * *"
   image: {{version}}
+  resources:
+    requests:
+      memory: 1024Mi
+      cpu: 250m
+    limits:
+      memory: 1200Mi
+      cpu: 500m
   envFrom:
     - secret: dittnav-nightly-usage-statistics-reporter
     - secret: influxdb-credentials
@@ -16,23 +23,6 @@ spec:
       enabled: true
   influx:
     instance: influx-min-side
-#  gcp:
-#    permissions:
-#      - resource:
-#          apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
-#          kind: Project
-#        role: roles/cloudsql.client
-#    sqlInstances:
-#      - databases:
-#          - envVarPrefix: DB
-#            name: brukernotifikasjon-cache
-#            users:
-#              - name: nightlystats
-#        name: brukernotifikasjon-cache
-#        diskSize: 10
-#        diskType: SSD
-#        tier: db-f1-micro
-#        type: POSTGRES_11
   accessPolicy:
     outbound:
       rules:

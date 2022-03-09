@@ -1,6 +1,6 @@
 package no.nav.personbruker.dittnav.metrics.reporting
 
-import no.nav.personbruker.dittnav.metrics.database.entity.IntegerMeasurement
+import no.nav.personbruker.dittnav.metrics.common.IntegerMeasurement
 
 data class EventCountForProducer(
     val namespace: String,

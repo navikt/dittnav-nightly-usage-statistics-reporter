@@ -1,7 +1,7 @@
-package no.nav.personbruker.dittnav.metrics.beskjed
+package no.nav.personbruker.dittnav.metrics.collectors
 
 import no.nav.personbruker.dittnav.metrics.common.StatisticsService
-import no.nav.personbruker.dittnav.metrics.config.EventType
+import no.nav.personbruker.dittnav.metrics.common.EventType
 import no.nav.personbruker.dittnav.metrics.reporting.*
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType.BESKJED
 import org.slf4j.LoggerFactory

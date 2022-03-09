@@ -13,8 +13,8 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
         runBeskjedMetricsReporting()
         runOppgaveMetricsReporting()
         runInnboksMetricsReporting()
-//        runTotalEventsMetricsReporting()
-//        runDoneEventsMetricsReporting()
+        runDoneEventsMetricsReporting()
+        runTotalEventsMetricsReporting()
 
         log.info("Finished metrics collection and reporting.")
     }
@@ -67,21 +67,15 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
     private suspend fun runTotalEventsMetricsReporting() {
         applicationContext.totalEventsMetricsCollector.run {
             getAndReportEventsPerUser()
-            getAndReportVisibleEventsPerUser()
             getAndReportActiveEventsPerUser()
             getAndReportEventActiveRatePerUser()
-            getAndReportExpiredEventsPerUser()
-            getAndReportEventExpiredRate()
-            getAndReportExpiredEventPerUserByInvisible()
             getAndReportEventsPerGroupId()
             getAndReportGroupIdsPerUser()
             getAndReportEventTextLength()
 
             getAndReportNumberOfUsersWithEvents()
             getAndReportNumberOfEvents()
-            getAndReportNumberOfVisibleEvents()
             getAndReportNumberOfActiveEvents()
-            getAndReportNumberOfExpiredEvents()
         }
     }
 

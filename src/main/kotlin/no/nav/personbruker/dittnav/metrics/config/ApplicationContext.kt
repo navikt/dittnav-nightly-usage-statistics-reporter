@@ -1,10 +1,10 @@
 package no.nav.personbruker.dittnav.metrics.config
 
-import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
-import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
-import no.nav.personbruker.dittnav.metrics.innboks.InnboksMetricsCollector
-import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveMetricsCollector
-import no.nav.personbruker.dittnav.metrics.total.TotalEventsMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.BeskjedMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.DoneMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.InnboksMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.OppgaveMetricsCollector
+import no.nav.personbruker.dittnav.metrics.collectors.TotalEventsMetricsCollector
 
 interface ApplicationContext {
     val beskjedMetricsCollector: BeskjedMetricsCollector
