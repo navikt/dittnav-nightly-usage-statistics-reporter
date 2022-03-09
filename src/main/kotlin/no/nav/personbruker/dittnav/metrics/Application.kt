@@ -10,7 +10,7 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
 
     suspend fun runMetricsReporting() {
         log.info("Initiating collection and reporting of dittnav cache metrics.")
-//        runBeskjedMetricsReporting()
+        runBeskjedMetricsReporting()
 //        runOppgaveMetricsReporting()
 //        runInnboksMetricsReporting()
 //        runTotalEventsMetricsReporting()

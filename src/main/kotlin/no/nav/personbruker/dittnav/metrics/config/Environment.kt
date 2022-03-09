@@ -3,11 +3,11 @@ package no.nav.personbruker.dittnav.metrics.config
 import no.nav.personbruker.dittnav.common.util.config.IntEnvVar
 import no.nav.personbruker.dittnav.common.util.config.StringEnvVar.getEnvVar
 
-data class Environment(val dbHost: String = getEnvVar("DB_NIGHTLYSTATS_HOST"),
-                       val dbName: String = getEnvVar("DB_NIGHTLYSTATS_DATABASE"),
-                       val dbUser: String = getEnvVar("DB_NIGHTLYSTATS_USERNAME"),
-                       val dbPassword: String = getEnvVar("DB_NIGHTLYSTATS_PASSWORD"),
-                       val dbPort: String = getEnvVar("DB_NIGHTLYSTATS_PORT"),
+data class Environment(val dbHost: String = getEnvVar("DB_NIGHTLYSTATS_HOST", ""),
+                       val dbName: String = getEnvVar("DB_NIGHTLYSTATS_DATABASE", ""),
+                       val dbUser: String = getEnvVar("DB_NIGHTLYSTATS_USERNAME", ""),
+                       val dbPassword: String = getEnvVar("DB_NIGHTLYSTATS_PASSWORD", ""),
+                       val dbPort: String = getEnvVar("DB_NIGHTLYSTATS_PORT", ""),
                        val dbUrl: String = getDbUrl(dbHost, dbPort, dbName),
     val clusterName: String = getEnvVar("NAIS_CLUSTER_NAME"),
     val namespace: String = getEnvVar("NAIS_NAMESPACE"),
