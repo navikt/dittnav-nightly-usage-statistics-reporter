@@ -1,20 +1,17 @@
 package no.nav.personbruker.dittnav.metrics.config
 
 import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedMetricsCollector
-import no.nav.personbruker.dittnav.metrics.beskjed.BeskjedStatisticsService
+import no.nav.personbruker.dittnav.metrics.common.StatisticsService
 import no.nav.personbruker.dittnav.metrics.database.Database
 import no.nav.personbruker.dittnav.metrics.database.H2Database
-import no.nav.personbruker.dittnav.metrics.database.PostgresDatabase
 import no.nav.personbruker.dittnav.metrics.done.DoneMetricsCollector
 import no.nav.personbruker.dittnav.metrics.done.DoneRepository
 import no.nav.personbruker.dittnav.metrics.innboks.InnboksMetricsCollector
-import no.nav.personbruker.dittnav.metrics.innboks.InnboksRepository
 import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveMetricsCollector
-import no.nav.personbruker.dittnav.metrics.oppgave.OppgaveRepository
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementCollector
 import no.nav.personbruker.dittnav.metrics.reporting.buildMetricsReporter
-import no.nav.personbruker.dittnav.metrics.total.TotalEventsRepository
 import no.nav.personbruker.dittnav.metrics.total.TotalEventsMetricsCollector
+import no.nav.personbruker.dittnav.metrics.total.TotalEventsRepository
 
 class DefaultApplicationContext: ApplicationContext {
 
@@ -26,14 +23,11 @@ class DefaultApplicationContext: ApplicationContext {
 
     private val httpClient = HttpClientBuilder.build()
     private val azureTokenFetcher = AzureTokenFetcher(environment.eventHandlerAppEnvironmentDetails)
-    private val beskjedRepository = BeskjedStatisticsService(httpClient, azureTokenFetcher, environment.eventHandlerURL)
-    override val beskjedMetricsCollector = BeskjedMetricsCollector(beskjedRepository, measurementCollector)
+    private val statisticsService = StatisticsService(httpClient, azureTokenFetcher, environment.eventHandlerURL)
 
-    private val oppgaveRepository = OppgaveRepository(database)
-    override val oppgaveMetricsCollector = OppgaveMetricsCollector(oppgaveRepository, measurementCollector)
-
-    private val innboksRepository = InnboksRepository(database)
-    override val innboksMetricsCollector = InnboksMetricsCollector(innboksRepository, measurementCollector)
+    override val beskjedMetricsCollector = BeskjedMetricsCollector(statisticsService, measurementCollector)
+    override val oppgaveMetricsCollector = OppgaveMetricsCollector(statisticsService, measurementCollector)
+    override val innboksMetricsCollector = InnboksMetricsCollector(statisticsService, measurementCollector)
 
     private val brukernotifikasjonRepository = TotalEventsRepository(database)
     override val totalEventsMetricsCollector = TotalEventsMetricsCollector(brukernotifikasjonRepository, measurementCollector)

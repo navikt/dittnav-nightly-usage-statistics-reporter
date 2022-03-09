@@ -1,17 +1,19 @@
 package no.nav.personbruker.dittnav.metrics.oppgave
 
+import no.nav.personbruker.dittnav.metrics.common.StatisticsService
+import no.nav.personbruker.dittnav.metrics.config.EventType
 import no.nav.personbruker.dittnav.metrics.reporting.*
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType.OPPGAVE
 import org.slf4j.LoggerFactory
 
-class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
+class OppgaveMetricsCollector(private val statisticsService: StatisticsService,
                               private val measurementCollector: MeasurementCollector) {
 
     val log = LoggerFactory.getLogger(OppgaveMetricsCollector::class.java)
 
     suspend fun getAndReportOppgaveEventsPerUser() {
         tryFetch {
-            oppgaveRepository.getOppgaveEventsPerUser()
+            statisticsService.getEventsPerUser(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_USER, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -19,19 +21,9 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
         }
     }
 
-    suspend fun getAndReportVisibleOppgaveEventsPerUser() {
-        tryFetch {
-            oppgaveRepository.getVisibleOppgaveEventsPerUser()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, VISIBLE_EVENTS_PER_USER, OPPGAVE, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige oppgave-eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportActiveOppgaveEventsPerUser() {
         tryFetch {
-            oppgaveRepository.getActiveOppgaveEventsPerUser()
+            statisticsService.getActiveEventsPerUser(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, ACTIVE_EVENTS_PER_USER, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -41,7 +33,7 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
 
     suspend fun getAndReportOppgaveEventActiveRatePerUser() {
         tryFetch {
-            oppgaveRepository.getOppgaveEventActiveRate()
+            statisticsService.getEventActiveRate(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -51,7 +43,7 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
 
     suspend fun getAndReportOppgaveEventsPerGroupId() {
         tryFetch {
-            oppgaveRepository.getOppgaveEventsPerGroupId()
+            statisticsService.getEventsPerGroupId(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_GROUP_ID, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -61,7 +53,7 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
 
     suspend fun getAndReportOppgaveGroupIdsPerUser() {
         tryFetch {
-            oppgaveRepository.getOppgaveGroupIdsPerUser()
+            statisticsService.getGroupIdsPerUser(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, GROUP_IDS_PER_USER, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -71,7 +63,7 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
 
     suspend fun getAndReportOppgaveEventTextLength() {
         tryFetch {
-            oppgaveRepository.getOppgaveEventTextLength()
+            statisticsService.getEventTextLength(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENT_TEXT_LENGTH, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -81,7 +73,7 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
 
     suspend fun getAndReportNumberOfUsersWithOppgaveEvents() {
         tryFetch {
-            oppgaveRepository.getNumberOfUsersWithOppgaveEvents()
+            statisticsService.getNumberOfUsersWithEvents(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, USERS_WITH_EVENTS, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -91,7 +83,7 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
 
     suspend fun getAndReportNumberOfOppgaveEvents() {
         tryFetch {
-            oppgaveRepository.getNumberOfOppgaveEvents()
+            statisticsService.getNumberOfEvents(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_EVENTS, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
@@ -99,24 +91,13 @@ class OppgaveMetricsCollector(private val oppgaveRepository: OppgaveRepository,
         }
     }
 
-    suspend fun getAndReportNumberOfVisibleOppgaveEvents() {
-        tryFetch {
-            oppgaveRepository.getNumberOfVisibleOppgaveEvents()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_VISIBLE_EVENTS, OPPGAVE, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige oppgave-eventer. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportNumberOfActiveOppgaveEvents() {
         tryFetch {
-            oppgaveRepository.getNumberOfActiveOppgaveEvents()
+            statisticsService.getNumberOfActiveEvents(EventType.OPPGAVE)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall aktive oppgave-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
-
 }

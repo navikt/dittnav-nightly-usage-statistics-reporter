@@ -1,17 +1,19 @@
 package no.nav.personbruker.dittnav.metrics.innboks
 
+import no.nav.personbruker.dittnav.metrics.common.StatisticsService
+import no.nav.personbruker.dittnav.metrics.config.EventType
 import no.nav.personbruker.dittnav.metrics.reporting.*
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType.INNBOKS
 import org.slf4j.LoggerFactory
 
-class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
+class InnboksMetricsCollector(private val statisticsService: StatisticsService,
                               private val measurementCollector: MeasurementCollector) {
 
     val log = LoggerFactory.getLogger(InnboksMetricsCollector::class.java)
 
     suspend fun getAndReportInnboksEventsPerUser() {
         tryFetch {
-            innboksRepository.getInnboksEventsPerUser()
+            statisticsService.getEventsPerUser(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_USER, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -19,19 +21,9 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
         }
     }
 
-    suspend fun getAndReportVisibleInnboksEventsPerUser() {
-        tryFetch {
-            innboksRepository.getVisibleInnboksEventsPerUser()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, VISIBLE_EVENTS_PER_USER, INNBOKS, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige innboks-eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportActiveInnboksEventsPerUser() {
         tryFetch {
-            innboksRepository.getActiveInnboksEventsPerUser()
+            statisticsService.getActiveEventsPerUser(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, ACTIVE_EVENTS_PER_USER, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -41,7 +33,7 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
     
     suspend fun getAndReportInnboksEventActiveRatePerUser() {
         tryFetch {
-            innboksRepository.getInnboksEventActiveRate()
+            statisticsService.getEventActiveRate(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -51,7 +43,7 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
 
     suspend fun getAndReportInnboksEventsPerGroupId() {
         tryFetch {
-            innboksRepository.getInnboksEventsPerGroupId()
+            statisticsService.getEventsPerGroupId(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_GROUP_ID, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -61,7 +53,7 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
 
     suspend fun getAndReportInnboksGroupIdsPerUser() {
         tryFetch {
-            innboksRepository.getInnboksGroupIdsPerUser()
+            statisticsService.getGroupIdsPerUser(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, GROUP_IDS_PER_USER, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -71,7 +63,7 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
 
     suspend fun getAndReportInnboksEventTextLength() {
         tryFetch {
-            innboksRepository.getInnboksEventTextLength()
+            statisticsService.getEventTextLength(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENT_TEXT_LENGTH, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -81,7 +73,7 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
 
     suspend fun getAndReportNumberOfUsersWithInnboksEvents() {
         tryFetch {
-            innboksRepository.getNumberOfUsersWithInnboksEvents()
+            statisticsService.getNumberOfUsersWithEvents(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, USERS_WITH_EVENTS, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -91,7 +83,7 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
 
     suspend fun getAndReportNumberOfInnboksEvents() {
         tryFetch {
-            innboksRepository.getNumberOfInnboksEvents()
+            statisticsService.getNumberOfEvents(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_EVENTS, INNBOKS, processingTime)
         }.onFailure { processingTime ->
@@ -99,24 +91,13 @@ class InnboksMetricsCollector(private val innboksRepository: InnboksRepository,
         }
     }
 
-    suspend fun getAndReportNumberOfVisibleInnboksEvents() {
-        tryFetch {
-            innboksRepository.getNumberOfVisibleInnboksEvents()
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_VISIBLE_EVENTS, INNBOKS, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall synlige innboks-eventer. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportNumberOfActiveInnboksEvents() {
         tryFetch {
-            innboksRepository.getNumberOfActiveInnboksEvents()
+            statisticsService.getNumberOfActiveEvents(EventType.INNBOKS)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, INNBOKS, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall aktive innboks-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
-
 }

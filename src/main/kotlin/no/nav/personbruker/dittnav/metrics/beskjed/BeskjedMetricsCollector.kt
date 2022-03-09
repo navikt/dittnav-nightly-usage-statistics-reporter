@@ -1,17 +1,19 @@
 package no.nav.personbruker.dittnav.metrics.beskjed
 
+import no.nav.personbruker.dittnav.metrics.common.StatisticsService
+import no.nav.personbruker.dittnav.metrics.config.EventType
 import no.nav.personbruker.dittnav.metrics.reporting.*
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementEventType.BESKJED
 import org.slf4j.LoggerFactory
 
-class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsService,
+class BeskjedMetricsCollector(private val statisticsService: StatisticsService,
                               private val measurementCollector: MeasurementCollector) {
 
     val log = LoggerFactory.getLogger(BeskjedMetricsCollector::class.java)
 
     suspend fun getAndReportBeskjedEventsPerUser() {
         tryFetch {
-            beskjedRepository.getBeskjedEventsPerUser()
+            statisticsService.getEventsPerUser(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_USER, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -21,7 +23,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportActiveBeskjedEventsPerUser() {
         tryFetch {
-            beskjedRepository.getActiveBeskjedEventsPerUser()
+            statisticsService.getActiveEventsPerUser(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, ACTIVE_EVENTS_PER_USER, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -31,7 +33,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportBeskjedEventActiveRate() {
         tryFetch {
-            beskjedRepository.getBeskjedEventActiveRate()
+            statisticsService.getEventActiveRate(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -41,7 +43,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportBeskjedEventsPerGroupId() {
         tryFetch {
-            beskjedRepository.getBeskjedEventsPerGroupId()
+            statisticsService.getEventsPerGroupId(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_GROUP_ID, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -51,7 +53,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportBeskjedGroupIdsPerUser() {
         tryFetch {
-            beskjedRepository.getBeskjedGroupIdsPerUser()
+            statisticsService.getGroupIdsPerUser(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, GROUP_IDS_PER_USER, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -61,7 +63,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportBeskjedEventTextLength() {
         tryFetch {
-            beskjedRepository.getBeskjedEventTextLength()
+            statisticsService.getEventTextLength(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordIntegerMeasurement(measurement, EVENT_TEXT_LENGTH, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -71,7 +73,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportNumberOfUsersWithBeskjedEvents() {
         tryFetch {
-            beskjedRepository.getNumberOfUsersWithBeskjedEvents()
+            statisticsService.getNumberOfUsersWithEvents(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, USERS_WITH_EVENTS, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -81,7 +83,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportNumberOfBeskjedEvents() {
         tryFetch {
-            beskjedRepository.getNumberOfBeskjedEvents()
+            statisticsService.getNumberOfEvents(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_EVENTS, BESKJED, processingTime)
         }.onFailure { processingTime ->
@@ -91,7 +93,7 @@ class BeskjedMetricsCollector(private val beskjedRepository: BeskjedStatisticsSe
 
     suspend fun getAndReportNumberOfActiveBeskjedEvents() {
         tryFetch {
-            beskjedRepository.getNumberOfActiveBeskjedEvents()
+            statisticsService.getNumberOfActiveEvents(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, BESKJED, processingTime)
         }.onFailure { processingTime ->
