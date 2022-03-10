@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - main
+      - gcp-probe
     paths-ignore:
       - .github/workflows/**
 

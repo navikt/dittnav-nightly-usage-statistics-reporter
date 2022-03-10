@@ -27,15 +27,3 @@ private fun createInfluxConfig(environment: Environment) = InfluxConfig(
     password = environment.influxdbPassword,
     enableEventBatching = false
 )
-/*
-
-SensuConfig(
-    hostName = environment.sensuHost,
-    hostPort = environment.sensuPort,
-    clusterName = environment.clusterName,
-    namespace = "N/A",
-    applicationName = "dittnav-event-aggregator",
-    eventsTopLevelName = "aggregator-kafka-events",
-    enableEventBatching = true
-)
-*/
