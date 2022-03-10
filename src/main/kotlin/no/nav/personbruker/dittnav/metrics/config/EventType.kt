@@ -1,8 +1,0 @@
-package no.nav.personbruker.dittnav.metrics.config
-
-enum class EventType(val eventType: String) {
-    OPPGAVE("oppgave"),
-    BESKJED("beskjed"),
-    INNBOKS("innboks"),
-    DONE("done")
-}

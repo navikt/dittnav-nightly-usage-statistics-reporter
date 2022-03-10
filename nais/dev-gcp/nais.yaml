@@ -1,0 +1,29 @@
+apiVersion: nais.io/v1
+kind: Naisjob
+metadata:
+  name: dittnav-nightly-usage-statistics-reporter
+  namespace: min-side
+  labels:
+    team: min-side
+spec:
+  schedule: "*/10 * * * *"
+  image: {{version}}
+  resources:
+    requests:
+      memory: 1024Mi
+      cpu: 250m
+    limits:
+      memory: 1200Mi
+      cpu: 500m
+  envFrom:
+    - secret: dittnav-nightly-usage-statistics-reporter
+    - secret: influxdb-credentials
+  azure:
+    application:
+      enabled: true
+  influx:
+    instance: influx-min-side
+  accessPolicy:
+    outbound:
+      rules:
+        - application: dittnav-event-handler

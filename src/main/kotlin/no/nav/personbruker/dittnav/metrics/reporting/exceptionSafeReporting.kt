@@ -1,15 +1,17 @@
 package no.nav.personbruker.dittnav.metrics.reporting
 
-import no.nav.personbruker.dittnav.metrics.database.exception.RetriableDatabaseException
+import io.ktor.client.features.ClientRequestException
+import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.delay
 import org.slf4j.LoggerFactory
 
-private const val DATABASE_FETCH_MAX_ATTEMPTS = 3
+private const val FETCH_MAX_ATTEMPTS = 3
 
 private val log = LoggerFactory.getLogger("ExceptionSafeReportingKT")
 
 suspend fun <T> tryFetch(provider: suspend () -> T): MeasurementResult<T> {
-    var attempts = 0
     val startTime = System.currentTimeMillis()
+    var attempts = 0
 
     while (true) {
         try {
@@ -17,17 +19,24 @@ suspend fun <T> tryFetch(provider: suspend () -> T): MeasurementResult<T> {
             val processingTime = startTime.timeLapsedSinceMillis()
 
             return MeasurementResult(result, processingTime)
-        } catch (e: RetriableDatabaseException) {
-            attempts++
+        } catch (e: ClientRequestException) {
+            if (e.response.status == HttpStatusCode.Unauthorized) {
+                attempts++
 
-            if (attempts < DATABASE_FETCH_MAX_ATTEMPTS) {
-                log.warn("Fikk periodisk feil ved henting av data fra databasen. Prøver på nytt.", e)
+                if (attempts < FETCH_MAX_ATTEMPTS) {
+                    log.warn("Fikk auth feil ved henting av data. Prøver på nytt om 5s.", e)
+                    delay(5 * 1000)
+                } else {
+                    log.warn("Fikk auth feil ved henting av data. Ga opp etter $attempts forsøk.", e)
+                    return failedResult(startTime.timeLapsedSinceMillis())
+                }
             } else {
-                log.warn("Fikk periodisk feil ved henting av data fra databasen. Ga opp etter $attempts forsøk.", e)
+                log.warn("Fikk uventet HTTP feil ved henting av data. Ga opp etter $attempts forsøk.", e)
                 return failedResult(startTime.timeLapsedSinceMillis())
             }
-        } catch (e: Exception) {
-            log.warn("Fikk uventet feil ved henting av data fra databasen", e)
+        }
+        catch (e: Exception) {
+            log.warn("Fikk uventet feil ved henting av data", e)
             return failedResult(startTime.timeLapsedSinceMillis())
         }
     }
