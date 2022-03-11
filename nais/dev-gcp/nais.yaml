@@ -6,7 +6,7 @@ metadata:
   labels:
     team: min-side
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "*/30 * * * *"
   image: {{version}}
   resources:
     requests:
