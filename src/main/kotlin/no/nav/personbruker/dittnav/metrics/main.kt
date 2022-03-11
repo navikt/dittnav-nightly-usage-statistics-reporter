@@ -11,8 +11,9 @@ fun main() = runBlocking {
         Application().runMetricsReporting()
     } catch (e: Exception) {
         log.warn("Failed to run metrics reporting", e)
-        exitProcess(1)
-    } finally {
-        exitProcess(0)
+//        exitProcess(1)
     }
+//    finally {
+//        exitProcess(0)
+//    }
 }
