@@ -16,23 +16,23 @@ class StatisticsService(
     )
 
     suspend fun getTotalEventsPerUser(): EventsPerUser = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/total/grouped/bruker")
+        URL("$eventHandlerBaseURL/stats/grouped/bruker")
     )
 
     suspend fun getActiveEventsPerUser(eventType: EventType): ActiveEventsPerUser = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/grouped/bruker/${eventType.eventType}/active")
+        URL("$eventHandlerBaseURL/stats/grouped/bruker/active/${eventType.eventType}")
     )
 
     suspend fun getTotalActiveEventsPerUser(): ActiveEventsPerUser = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/total/grouped/bruker/active")
+        URL("$eventHandlerBaseURL/stats/grouped/bruker/active")
     )
 
     suspend fun getEventActiveRate(eventType: EventType): EventActiveRatePerUser = getRateMeasurement(
-        URL("$eventHandlerBaseURL/stats/grouped/bruker/${eventType.eventType}/active-rate")
+        URL("$eventHandlerBaseURL/stats/grouped/bruker/active-rate/${eventType.eventType}")
     )
 
     suspend fun getTotalEventActiveRatePerUser(): EventActiveRatePerUser = getRateMeasurement(
-        URL("$eventHandlerBaseURL/stats/total/grouped/bruker/active-rate")
+        URL("$eventHandlerBaseURL/stats/grouped/bruker/active-rate")
     )
 
     suspend fun getEventsPerGroupId(eventType: EventType): EventsPerGroupId = getMeasurement(
@@ -40,31 +40,31 @@ class StatisticsService(
     )
 
     suspend fun getTotalEventsPerGroupId(): EventsPerGroupId = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/total/grouped/gruppering")
+        URL("$eventHandlerBaseURL/stats/grouped/gruppering")
     )
 
     suspend fun getGroupIdsPerUser(eventType: EventType): GroupIdsPerUser = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/grouped/bruker/${eventType.eventType}/grupperings")
+        URL("$eventHandlerBaseURL/stats/grouped/bruker/grupperings/${eventType.eventType}")
     )
 
     suspend fun getTotalGroupIdsPerUser(): GroupIdsPerUser = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/total/grouped/bruker/grupperings")
+        URL("$eventHandlerBaseURL/stats/grouped/bruker/grupperings")
     )
 
     suspend fun getEventTextLength(eventType: EventType): EventTextLength = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/${eventType.eventType}/text-length")
+        URL("$eventHandlerBaseURL/stats/text-length/${eventType.eventType}")
     )
 
     suspend fun getTotalEventTextLength(): EventTextLength = getMeasurement(
-        URL("$eventHandlerBaseURL/stats/total/text-length")
+        URL("$eventHandlerBaseURL/stats/text-length")
     )
 
     suspend fun getNumberOfUsersWithEvents(eventType: EventType): Int = getCount(
-        URL("$eventHandlerBaseURL/stats/${eventType.eventType}/bruker-count")
+        URL("$eventHandlerBaseURL/stats/bruker-count/${eventType.eventType}")
     )
 
     suspend fun getTotalNumberOfUsersWithEvents(): Int = getCount(
-        URL("$eventHandlerBaseURL/stats/total/bruker-count")
+        URL("$eventHandlerBaseURL/stats/bruker-count")
     )
 
     suspend fun getNumberOfEvents(eventType: EventType): Int = getCount(
@@ -72,15 +72,15 @@ class StatisticsService(
     )
 
     suspend fun getTotalNumberOfEvents(): Int = getCount(
-        URL("$eventHandlerBaseURL/stats/total/count")
+        URL("$eventHandlerBaseURL/stats/count")
     )
 
     suspend fun getNumberOfActiveEvents(eventType: EventType): Int = getCount(
-        URL("$eventHandlerBaseURL/stats/count/${eventType.eventType}/active")
+        URL("$eventHandlerBaseURL/stats/count/active/${eventType.eventType}")
     )
 
     suspend fun getTotalNumberOfActiveEvents(): Int = getCount(
-        URL("$eventHandlerBaseURL/stats/total/count/active")
+        URL("$eventHandlerBaseURL/stats/count/active")
     )
 
     private suspend fun getRateMeasurement(url: URL): DecimalMeasurement =
