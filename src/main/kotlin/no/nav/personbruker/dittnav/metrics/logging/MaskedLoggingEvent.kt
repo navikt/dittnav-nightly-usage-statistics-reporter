@@ -49,7 +49,7 @@ class MaskedLoggingEvent internal constructor(private val iLoggingEvent: ILoggin
         return iLoggingEvent.hasCallerData()
     }
 
-    override fun getMarkerList(): MutableList<Marker> {
+    override fun getMarkerList(): MutableList<Marker>? {
         return iLoggingEvent.markerList
     }
 
@@ -69,7 +69,7 @@ class MaskedLoggingEvent internal constructor(private val iLoggingEvent: ILoggin
         return iLoggingEvent.sequenceNumber
     }
 
-    override fun getKeyValuePairs(): MutableList<KeyValuePair> {
+    override fun getKeyValuePairs(): MutableList<KeyValuePair>? {
         return iLoggingEvent.keyValuePairs
     }
 
