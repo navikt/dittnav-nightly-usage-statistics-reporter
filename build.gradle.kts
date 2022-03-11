@@ -40,7 +40,7 @@ dependencies {
     implementation(DittNAV.Common.influxdb)
     implementation(Influxdb.java)
     implementation(Kotlinx.coroutines)
-    implementation(Logback.classic)
+    implementation("ch.qos.logback:logback-classic:1.3.0-alpha14")
     implementation(Logstash.logbackEncoder)
     implementation(Tms.KtorTokenSupport.azureExchange)
     implementation(Ktor.clientApache)
