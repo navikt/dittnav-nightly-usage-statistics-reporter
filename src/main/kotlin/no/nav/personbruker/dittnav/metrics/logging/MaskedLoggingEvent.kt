@@ -6,6 +6,7 @@ import ch.qos.logback.classic.spi.IThrowableProxy
 import ch.qos.logback.classic.spi.LoggerContextVO
 import no.nav.personbruker.dittnav.metrics.logging.MaskedThrowableProxy.Companion.mask
 import org.slf4j.Marker
+import org.slf4j.event.KeyValuePair
 
 class MaskedLoggingEvent internal constructor(private val iLoggingEvent: ILoggingEvent) : ILoggingEvent {
     override fun getThreadName(): String? {
@@ -48,8 +49,8 @@ class MaskedLoggingEvent internal constructor(private val iLoggingEvent: ILoggin
         return iLoggingEvent.hasCallerData()
     }
 
-    override fun getMarker(): Marker? {
-        return iLoggingEvent.marker
+    override fun getMarkerList(): MutableList<Marker> {
+        return iLoggingEvent.markerList
     }
 
     override fun getMDCPropertyMap(): Map<String?, String?>? {
@@ -62,6 +63,14 @@ class MaskedLoggingEvent internal constructor(private val iLoggingEvent: ILoggin
 
     override fun getTimeStamp(): Long {
         return iLoggingEvent.timeStamp
+    }
+
+    override fun getSequenceNumber(): Long {
+        return iLoggingEvent.sequenceNumber
+    }
+
+    override fun getKeyValuePairs(): MutableList<KeyValuePair> {
+        return iLoggingEvent.keyValuePairs
     }
 
     override fun prepareForDeferredProcessing() {
