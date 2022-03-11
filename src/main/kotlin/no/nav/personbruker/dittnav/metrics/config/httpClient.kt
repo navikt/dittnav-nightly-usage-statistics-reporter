@@ -18,9 +18,9 @@ suspend inline fun <reified T> HttpClient.get(url: URL, azureTokenFetcher: Azure
         method = HttpMethod.Get
         header(HttpHeaders.Authorization, "Bearer ${azureTokenFetcher.getAccessToken()}")
         timeout {
-            socketTimeoutMillis = 60 * 1000
+            socketTimeoutMillis = 300 * 1000
             connectTimeoutMillis = 10 * 1000
-            requestTimeoutMillis = 120 * 1000
+            requestTimeoutMillis = 300 * 1000
         }
     }
 }
