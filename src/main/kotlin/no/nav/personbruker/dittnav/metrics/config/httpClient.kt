@@ -20,7 +20,7 @@ suspend inline fun <reified T> HttpClient.get(url: URL, azureTokenFetcher: Azure
         timeout {
             socketTimeoutMillis = 30000
             connectTimeoutMillis = 10000
-            requestTimeoutMillis = 40000
+            requestTimeoutMillis = 120 * 1000
         }
     }
 }
