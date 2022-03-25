@@ -91,4 +91,7 @@ class StatisticsService(
 
     private suspend fun getCount(url: URL): Int =
         client.get<CountMeasurement>(url, azureTokenFetcher).count
+
+    suspend fun getActiveEventsFrequencyDistribution(eventType: EventType): EventFrequencyDistribution =
+        client.get(URL("$eventHandlerBaseURL/stats/frequency-distribution/active/${eventType.eventType}"), azureTokenFetcher)
 }

@@ -51,6 +51,8 @@ dependencies {
     testImplementation(Junit.engine)
     testImplementation(Junit.api)
     testImplementation(Mockk.mockk)
+    testImplementation(Kluent.kluent)
+    testImplementation(Ktor.clientMock)
 
     intTestImplementation(Junit.engine)
 }
