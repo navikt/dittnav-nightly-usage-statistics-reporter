@@ -105,7 +105,7 @@ class BeskjedMetricsCollector(private val statisticsService: StatisticsService,
         tryFetch {
             statisticsService.getActiveEventsFrequencyDistribution(EventType.BESKJED)
         }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordEventFrequencyMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, BESKJED, processingTime)
+            measurementCollector.recordEventFrequencyMeasurement(measurement, EVENT_FREQUENCY_DISTRIBUTION, BESKJED, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for aktiv beskjed-frekvensfordeling. Tid brukt: ${processingTime}ms.")
         }
