@@ -100,4 +100,14 @@ class BeskjedMetricsCollector(private val statisticsService: StatisticsService,
             log.warn("Klarte ikke hente inn data for antall aktive beskjed-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
+
+    suspend fun getAndReportActiveBeskjedFrequencies() {
+        tryFetch {
+            statisticsService.getActiveEventsFrequencyDistribution(EventType.BESKJED)
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordEventFrequencyMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, BESKJED, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for antall aktive beskjed-eventer. Tid brukt: ${processingTime}ms.")
+        }
+    }
 }

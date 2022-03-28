@@ -26,6 +26,7 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
             getAndReportBeskjedEventsPerGroupId()
             getAndReportBeskjedGroupIdsPerUser()
             getAndReportBeskjedEventTextLength()
+            getAndReportActiveBeskjedFrequencies()
 
             getAndReportNumberOfUsersWithBeskjedEvents()
             getAndReportNumberOfBeskjedEvents()
