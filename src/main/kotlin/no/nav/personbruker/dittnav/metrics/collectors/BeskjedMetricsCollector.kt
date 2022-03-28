@@ -107,7 +107,7 @@ class BeskjedMetricsCollector(private val statisticsService: StatisticsService,
         }.onSuccess { measurement, processingTime ->
             measurementCollector.recordEventFrequencyMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, BESKJED, processingTime)
         }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall aktive beskjed-eventer. Tid brukt: ${processingTime}ms.")
+            log.warn("Klarte ikke hente inn data for aktiv beskjed-frekvensfordeling. Tid brukt: ${processingTime}ms.")
         }
     }
 }
