@@ -8,7 +8,7 @@ class EventFrequencyDistribution(val eventFrequencies: List<NumberOfEventsFreque
         groupedEventFrequencies["10-14"] = 0
         groupedEventFrequencies["15-19"] = 0
         groupedEventFrequencies["20+"] = 0
-        eventFrequencies.forEach{
+        eventFrequencies.forEach {
             if (it.antallEventer < 10) groupedEventFrequencies[it.antallEventer.toString()] = it.antallBrukere
             if (it.antallEventer in 10 until 15)
                 groupedEventFrequencies["10-14"] = groupedEventFrequencies["10-14"]!! + it.antallBrukere

@@ -100,4 +100,15 @@ class OppgaveMetricsCollector(private val statisticsService: StatisticsService,
             log.warn("Klarte ikke hente inn data for antall aktive oppgave-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
+
+    suspend fun getAndReportActiveOppgaveFrequencies() {
+        tryFetch {
+            statisticsService.getActiveEventsFrequencyDistribution(EventType.OPPGAVE)
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordEventFrequencyMeasurement(measurement, EVENT_FREQUENCY_DISTRIBUTION,
+                OPPGAVE, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for aktiv oppgave-frekvensfordeling. Tid brukt: ${processingTime}ms.")
+        }
+    }
 }

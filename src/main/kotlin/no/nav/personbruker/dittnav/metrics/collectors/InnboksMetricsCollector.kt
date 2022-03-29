@@ -100,4 +100,15 @@ class InnboksMetricsCollector(private val statisticsService: StatisticsService,
             log.warn("Klarte ikke hente inn data for antall aktive innboks-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
+
+    suspend fun getAndReportActiveInnboksFrequencies() {
+        tryFetch {
+            statisticsService.getActiveEventsFrequencyDistribution(EventType.INNBOKS)
+        }.onSuccess { measurement, processingTime ->
+            measurementCollector.recordEventFrequencyMeasurement(measurement, EVENT_FREQUENCY_DISTRIBUTION,
+                INNBOKS, processingTime)
+        }.onFailure { processingTime ->
+            log.warn("Klarte ikke hente inn data for aktiv innboks-frekvensfordeling. Tid brukt: ${processingTime}ms.")
+        }
+    }
 }
