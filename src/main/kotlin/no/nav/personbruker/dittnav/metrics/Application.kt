@@ -26,6 +26,7 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
             getAndReportBeskjedEventsPerGroupId()
             getAndReportBeskjedGroupIdsPerUser()
             getAndReportBeskjedEventTextLength()
+            getAndReportActiveBeskjedFrequencies()
 
             getAndReportNumberOfUsersWithBeskjedEvents()
             getAndReportNumberOfBeskjedEvents()
@@ -41,6 +42,7 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
             getAndReportOppgaveEventsPerGroupId()
             getAndReportOppgaveGroupIdsPerUser()
             getAndReportOppgaveEventTextLength()
+            getAndReportActiveOppgaveFrequencies()
             
             getAndReportNumberOfUsersWithOppgaveEvents()
             getAndReportNumberOfOppgaveEvents()
@@ -56,6 +58,7 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
             getAndReportInnboksEventsPerGroupId()
             getAndReportInnboksGroupIdsPerUser()
             getAndReportInnboksEventTextLength()
+            getAndReportActiveInnboksFrequencies()
 
             getAndReportNumberOfUsersWithInnboksEvents()
             getAndReportNumberOfInnboksEvents()

@@ -2,6 +2,7 @@ package no.nav.personbruker.dittnav.metrics.reporting
 
 import no.nav.personbruker.dittnav.common.metrics.MetricsReporter
 import no.nav.personbruker.dittnav.metrics.common.DecimalMeasurement
+import no.nav.personbruker.dittnav.metrics.common.EventFrequencyDistribution
 import no.nav.personbruker.dittnav.metrics.common.IntegerMeasurement
 import org.slf4j.LoggerFactory
 
@@ -56,6 +57,20 @@ class MeasurementCollector(private val metricsReporter: MetricsReporter) {
             "counter" to measurement,
             "processingTimeMs" to processingTime
         ).toMap()
+
+        val tagMap = listOf(
+            "type" to type.name
+        ).toMap()
+
+
+        registerDataPoint(name, fieldMap, tagMap)
+    }
+
+    suspend fun recordEventFrequencyMeasurement(frequencyDistribution: EventFrequencyDistribution, name: String, type: MeasurementEventType, processingTime: Long) {
+        val fieldMap = frequencyDistribution.getGroupedFrequencyDistribution() +
+            mapOf(
+            "processingTimeMs" to processingTime
+        )
 
         val tagMap = listOf(
             "type" to type.name
