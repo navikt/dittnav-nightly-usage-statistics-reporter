@@ -13,40 +13,31 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
         runBeskjedMetricsReporting()
         runOppgaveMetricsReporting()
         runInnboksMetricsReporting()
-        runDoneEventsMetricsReporting()
         runTotalEventsMetricsReporting()
         log.info("Finished metrics collection and reporting.")
     }
-    
+
     private suspend fun runBeskjedMetricsReporting() {
         applicationContext.beskjedMetricsCollector.run {
             getAndReportBeskjedEventsPerUser()
             getAndReportActiveBeskjedEventsPerUser()
-            getAndReportBeskjedEventActiveRate()
-            getAndReportBeskjedEventsPerGroupId()
-            getAndReportBeskjedGroupIdsPerUser()
             getAndReportBeskjedEventTextLength()
             getAndReportActiveBeskjedFrequencies()
 
             getAndReportNumberOfUsersWithBeskjedEvents()
             getAndReportNumberOfBeskjedEvents()
-            getAndReportNumberOfActiveBeskjedEvents()
         }
-    }    
-    
+    }
+
     private suspend fun runOppgaveMetricsReporting() {
         applicationContext.oppgaveMetricsCollector.run {
             getAndReportOppgaveEventsPerUser()
             getAndReportActiveOppgaveEventsPerUser()
-            getAndReportOppgaveEventActiveRatePerUser()
-            getAndReportOppgaveEventsPerGroupId()
-            getAndReportOppgaveGroupIdsPerUser()
             getAndReportOppgaveEventTextLength()
             getAndReportActiveOppgaveFrequencies()
-            
+
             getAndReportNumberOfUsersWithOppgaveEvents()
             getAndReportNumberOfOppgaveEvents()
-            getAndReportNumberOfActiveOppgaveEvents()
         }
     }
 
@@ -54,15 +45,11 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
         applicationContext.innboksMetricsCollector.run {
             getAndReportInnboksEventsPerUser()
             getAndReportActiveInnboksEventsPerUser()
-            getAndReportInnboksEventActiveRatePerUser()
-            getAndReportInnboksEventsPerGroupId()
-            getAndReportInnboksGroupIdsPerUser()
             getAndReportInnboksEventTextLength()
             getAndReportActiveInnboksFrequencies()
 
             getAndReportNumberOfUsersWithInnboksEvents()
             getAndReportNumberOfInnboksEvents()
-            getAndReportNumberOfActiveInnboksEvents()
         }
     }
 
@@ -70,20 +57,10 @@ class Application (val applicationContext: ApplicationContext = DefaultApplicati
         applicationContext.totalEventsMetricsCollector.run {
             getAndReportEventsPerUser()
             getAndReportActiveEventsPerUser()
-            getAndReportEventActiveRatePerUser()
-            getAndReportEventsPerGroupId()
-            getAndReportGroupIdsPerUser()
             getAndReportEventTextLength()
 
             getAndReportNumberOfUsersWithEvents()
             getAndReportNumberOfEvents()
-            getAndReportNumberOfActiveEvents()
-        }
-    }
-
-    private suspend fun runDoneEventsMetricsReporting() {
-        applicationContext.doneMetricsCollector.run {
-            getAndReportNumberOfCachedDoneEvents()
         }
     }
 }

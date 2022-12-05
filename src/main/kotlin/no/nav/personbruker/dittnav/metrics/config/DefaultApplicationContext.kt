@@ -2,7 +2,6 @@ package no.nav.personbruker.dittnav.metrics.config
 
 import no.nav.personbruker.dittnav.metrics.collectors.BeskjedMetricsCollector
 import no.nav.personbruker.dittnav.metrics.common.StatisticsService
-import no.nav.personbruker.dittnav.metrics.collectors.DoneMetricsCollector
 import no.nav.personbruker.dittnav.metrics.collectors.InnboksMetricsCollector
 import no.nav.personbruker.dittnav.metrics.collectors.OppgaveMetricsCollector
 import no.nav.personbruker.dittnav.metrics.reporting.MeasurementCollector
@@ -23,6 +22,5 @@ class DefaultApplicationContext: ApplicationContext {
     override val beskjedMetricsCollector = BeskjedMetricsCollector(statisticsService, measurementCollector)
     override val oppgaveMetricsCollector = OppgaveMetricsCollector(statisticsService, measurementCollector)
     override val innboksMetricsCollector = InnboksMetricsCollector(statisticsService, measurementCollector)
-    override val doneMetricsCollector = DoneMetricsCollector(statisticsService, measurementCollector)
     override val totalEventsMetricsCollector = TotalEventsMetricsCollector(statisticsService, measurementCollector)
 }

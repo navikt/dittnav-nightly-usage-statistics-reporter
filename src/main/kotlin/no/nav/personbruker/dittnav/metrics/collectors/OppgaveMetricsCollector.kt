@@ -31,36 +31,6 @@ class OppgaveMetricsCollector(private val statisticsService: StatisticsService,
         }
     }
 
-    suspend fun getAndReportOppgaveEventActiveRatePerUser() {
-        tryFetch {
-            statisticsService.getEventActiveRate(EventType.OPPGAVE)
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordDecimalMeasurement(measurement, EVENT_ACTIVE_RATE_PER_USER, OPPGAVE, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for andel aktive oppgave-eventer per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportOppgaveEventsPerGroupId() {
-        tryFetch {
-            statisticsService.getEventsPerGroupId(EventType.OPPGAVE)
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, EVENTS_PER_GROUP_ID, OPPGAVE, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall oppgave-eventer per grupperingsid. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportOppgaveGroupIdsPerUser() {
-        tryFetch {
-            statisticsService.getGroupIdsPerUser(EventType.OPPGAVE)
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordIntegerMeasurement(measurement, GROUP_IDS_PER_USER, OPPGAVE, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall grupperingsid-er med minst ett oppgave-event per bruker. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
     suspend fun getAndReportOppgaveEventTextLength() {
         tryFetch {
             statisticsService.getEventTextLength(EventType.OPPGAVE)
@@ -88,16 +58,6 @@ class OppgaveMetricsCollector(private val statisticsService: StatisticsService,
             measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_EVENTS, OPPGAVE, processingTime)
         }.onFailure { processingTime ->
             log.warn("Klarte ikke hente inn data for antall oppgave-eventer. Tid brukt: ${processingTime}ms.")
-        }
-    }
-
-    suspend fun getAndReportNumberOfActiveOppgaveEvents() {
-        tryFetch {
-            statisticsService.getNumberOfActiveEvents(EventType.OPPGAVE)
-        }.onSuccess { measurement, processingTime ->
-            measurementCollector.recordScalarIntMeasurement(measurement, NUMBER_OF_ACTIVE_EVENTS, OPPGAVE, processingTime)
-        }.onFailure { processingTime ->
-            log.warn("Klarte ikke hente inn data for antall aktive oppgave-eventer. Tid brukt: ${processingTime}ms.")
         }
     }
 
